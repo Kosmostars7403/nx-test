@@ -1,34 +1,31 @@
 {
-  "name": "shell",
+  "name": "catalog",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "sourceRoot": "apps/shell/src",
+  "sourceRoot": "apps/catalog/src",
   "prefix": "nx-test",
   "targets": {
     "build": {
       "executor": "@nrwl/angular:webpack-browser",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/apps/shell",
-        "index": "apps/shell/src/index.html",
-        "main": "apps/shell/src/main.ts",
+        "outputPath": "dist/apps/catalog",
+        "index": "apps/catalog/src/index.html",
+        "main": "apps/catalog/src/main.ts",
         "polyfills": ["zone.js"],
-        "tsConfig": "apps/shell/tsconfig.app.json",
+        "tsConfig": "apps/catalog/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
-        "assets": ["apps/shell/src/favicon.ico", "apps/shell/src/assets",
-          {
-            "glob": "**/*",
-            "input": "node_modules/cesium/Build/Cesium",
-            "output": "/assets/cesium"
-          }],
-        "styles": [
-          "apps/shell/src/styles.scss",
-          "node_modules/cesium/Build/Cesium/Widgets/widgets.css"
-
+        "assets": [
+          "apps/catalog/src/favicon.ico",
+          "apps/catalog/src/assets"
         ],
-        "scripts": [],
+        "styles": [
+          "apps/catalog/src/styles.scss"
+        ],
+        "scripts": [
+        ],
         "customWebpackConfig": {
-          "path": "apps/shell/webpack.config.js"
+          "path": "apps/catalog/webpack.config.js"
         },
         "commonChunk": false
       },
@@ -48,7 +45,7 @@
           ],
           "outputHashing": "all",
           "customWebpackConfig": {
-            "path": "apps/shell/webpack.prod.config.js"
+            "path": "apps/catalog/webpack.prod.config.js"
           }
         },
         "development": {
@@ -66,37 +63,37 @@
       "executor": "@nrwl/angular:webpack-dev-server",
       "configurations": {
         "production": {
-          "browserTarget": "shell:build:production"
+          "browserTarget": "catalog:build:production"
         },
         "development": {
-          "browserTarget": "shell:build:development"
+          "browserTarget": "catalog:build:development"
         }
       },
       "defaultConfiguration": "development",
       "options": {
-        "port": 4200,
-        "publicHost": "http://localhost:4200"
+        "port": 4201,
+        "publicHost": "http://localhost:4201"
       }
     },
     "extract-i18n": {
       "executor": "ngx-build-plus:extract-i18n",
       "options": {
-        "browserTarget": "shell:build",
-        "extraWebpackConfig": "apps/shell/webpack.config.js"
+        "browserTarget": "catalog:build",
+        "extraWebpackConfig": "apps/catalog/webpack.config.js"
       }
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["apps/shell/**/*.ts", "apps/shell/**/*.html"]
+        "lintFilePatterns": ["apps/catalog/**/*.ts", "apps/catalog/**/*.html"]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "apps/shell/jest.config.ts",
+        "jestConfig": "apps/catalog/jest.config.ts",
         "passWithNoTests": true
       },
       "configurations": {
