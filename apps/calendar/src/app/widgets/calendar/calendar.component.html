@@ -1,11 +1,9 @@
-<button>Предыдущий</button>
-<h2 class="calendar__title">{{ now.monthLong }} {{ now.year }}</h2>
-<button>Следующий</button>
+<button (click)="changeMonth(-1)">Предыдущий</button>
+<h2 class="calendar__title">{{ currentMonth.monthLong }} {{ currentMonth.year }}</h2>
+<button (click)="changeMonth(1)">Следующий</button>
 
 <div class="calendar">
-  <div
-    class="calendar__row"
-  >
+  <div class="calendar__row">
     <div
       *ngFor="let day of sheet[0]"
       class="calendar__weekday-cell"
