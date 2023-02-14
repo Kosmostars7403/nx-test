@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "run:all": "node node_modules/@angular-architects/module-federation/src/server/mf-dev-server.js"
+    "run:all": "nx run-many --target serve --all --verbose"
   },
   "private": true,
   "dependencies": {
@@ -17,6 +17,7 @@
     "@angular/router": "15.1.4",
     "@nrwl/angular": "15.6.3",
     "cesium": "^1.102.0",
+    "luxon": "^3.2.1",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
@@ -37,6 +38,7 @@
     "@nrwl/nx-cloud": "latest",
     "@nrwl/workspace": "15.6.3",
     "@types/jest": "28.1.1",
+    "@types/luxon": "^3.2.0",
     "@types/node": "16.11.7",
     "@typescript-eslint/eslint-plugin": "^5.36.1",
     "@typescript-eslint/parser": "^5.36.1",

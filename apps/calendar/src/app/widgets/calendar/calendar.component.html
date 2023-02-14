@@ -1,0 +1,13 @@
+<h2 class="calendar__title">{{ now.monthLong }} {{ now.year }}</h2>
+
+<div class="calendar">
+  <div
+    class="calendar__row"
+    *ngFor="let row of sheet"
+  >
+    <div
+      *ngFor="let day of row"
+      class="calendar__cell"
+    >{{ day.day }} {{day.monthLong}}</div>
+  </div>
+</div>

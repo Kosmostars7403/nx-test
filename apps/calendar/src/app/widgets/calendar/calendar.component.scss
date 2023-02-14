@@ -1,0 +1,23 @@
+:host {
+  display: block;
+  padding: 10px;
+}
+
+.calendar {
+  display: grid;
+  grid-template-rows: repeat(6, 1fr);
+}
+
+.calendar__title {
+  text-transform: uppercase;
+}
+
+.calendar__row {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.calendar__cell {
+  border: 1px black solid;
+  min-height: 120px;
+}

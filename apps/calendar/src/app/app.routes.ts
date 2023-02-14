@@ -6,5 +6,5 @@ export const appRoutes: Route[] = [
     path: '',
     component: CalendarPageComponent,
     pathMatch: 'full'
-  }
+  },
 ];
