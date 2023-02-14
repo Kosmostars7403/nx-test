@@ -1,1 +1,1 @@
-declare module 'catalog/*';
+declare module 'mapMf/*';

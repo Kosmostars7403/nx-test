@@ -11,9 +11,9 @@ ngSharedMappings.register(
   [/* mapped paths to share */]);
 
 module.exports = withModuleFederationPlugin({
-  // remotes: {
-  //   "catalog": "http://localhost:4201/remoteEntry.js",
-  // },
+  remotes: {
+    "mapMf": "http://localhost:4201/remoteEntry.js",
+  },
 
   shared: {
     '@angular/animations': {singleton: true, strictVersion: true, requiredVersion: '15.1.4', eager: false},

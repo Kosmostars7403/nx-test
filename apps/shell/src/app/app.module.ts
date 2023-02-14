@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
-import { loadRemoteModule } from '@angular-architects/module-federation';
+// import { loadRemoteModule } from '@angular-architects/module-federation';
 
 import { AppComponent } from './app.component';
 
@@ -10,23 +10,29 @@ import { AppComponent } from './app.component';
   imports: [
     BrowserModule,
     RouterModule.forRoot([
-      {
-        path: '',
-        component: AppComponent,
-      },
+
       // {
-      //   path: 'catalog',
-      //   loadChildren: () => import('catalog/routes').then(m => m.appRoutes)
+      //   path: 'map',
+      //   loadChildren: () =>
+      //     loadRemoteModule({
+      //       type: 'module',
+      //       remoteEntry: 'http://localhost:4201/remoteEntry.js',
+      //       exposedModule: './routes',
+      //     }).then((m) => m.appRoutes),
       // },
+
       {
-        path: 'catalog',
-        loadChildren: () =>
-          loadRemoteModule({
-            type: 'module',
-            remoteEntry: 'http://localhost:4201/remoteEntry.js',
-            exposedModule: './routes',
-          }).then((m) => m.appRoutes),
+        path: 'map',
+        loadChildren: async () => {
+          try {
+            const m = await import('mapMf/routes');
+            return m.appRoutes;
+          } catch (err) {
+            console.warn('Cannot load module "Map"', err);
+          }
+        },
       },
+
     ]),
   ],
   providers: [],
