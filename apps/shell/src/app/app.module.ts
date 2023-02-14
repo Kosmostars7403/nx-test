@@ -33,6 +33,18 @@ import { AppComponent } from './app.component';
         },
       },
 
+      {
+        path: 'calendar',
+        loadChildren: async () => {
+          try {
+            const m = await import('calendarMf/routes');
+            return m.appRoutes;
+          } catch (err) {
+            console.warn('Cannot load module "Calendar"', err);
+          }
+        },
+      },
+
     ]),
   ],
   providers: [],

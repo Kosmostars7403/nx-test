@@ -13,6 +13,7 @@ ngSharedMappings.register(
 module.exports = withModuleFederationPlugin({
   remotes: {
     "mapMf": "http://localhost:4201/remoteEntry.js",
+    "calendarMf": "http://localhost:4202/remoteEntry.js",
   },
 
   shared: {
