@@ -1,6 +1,18 @@
+<button>Предыдущий</button>
 <h2 class="calendar__title">{{ now.monthLong }} {{ now.year }}</h2>
+<button>Следующий</button>
 
 <div class="calendar">
+  <div
+    class="calendar__row"
+  >
+    <div
+      *ngFor="let day of sheet[0]"
+      class="calendar__weekday-cell"
+    >
+      {{ day.weekdayLong}}
+    </div>
+  </div>
   <div
     class="calendar__row"
     *ngFor="let row of sheet"

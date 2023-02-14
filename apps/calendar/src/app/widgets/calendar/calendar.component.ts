@@ -19,8 +19,10 @@ export class CalendarComponent {
   year = 2023
   sheet: DateTime[][] = []
 
+
   ngOnInit() {
     const month = this.getMonthObject()
+    DateTime.now().weekdayLong
 
     for (let rowIndex = 0; rowIndex < CALENDAR_ROWS_COUNT; rowIndex++) {
       const row: DateTime[] = [];

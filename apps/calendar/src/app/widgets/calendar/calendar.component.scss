@@ -5,9 +5,12 @@
 
 .calendar {
   display: grid;
-  grid-template-rows: repeat(6, 1fr);
+  grid-template-rows: 50px repeat(6, 1fr);
+  background: #241f2c;
+  cursor: pointer;
 }
 
+.calendar__weekday-cell,
 .calendar__title {
   text-transform: uppercase;
 }
@@ -17,7 +20,17 @@
   grid-template-columns: repeat(7, 1fr);
 }
 
+.calendar__weekday-cell {
+  height: 50px;
+  background: #282a2d;
+  color: white;
+  display: grid;
+  place-content: center;
+}
+
 .calendar__cell {
   border: 1px black solid;
   min-height: 120px;
+  color: white;
+
 }
