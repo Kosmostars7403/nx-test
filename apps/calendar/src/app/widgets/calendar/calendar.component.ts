@@ -22,7 +22,7 @@ const MONTHS_IN_YEAR = 12
     CommonModule,
     CommonUiSidebarComponent,
     RouterModule,
-    CalendarFlightsComponent
+    CalendarFlightsComponent,
   ],
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.scss'],

@@ -15,8 +15,15 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@nx-test/common-ui/sidebar": ["libs/common-ui/sidebar/src/index.ts"]
+      "@nx-test/common-ui/sidebar": ["libs/common-ui/sidebar/src/index.ts"],
+      "@nx-test/orwell-cesium": ["libs/orwell-cesium/src/index.ts"],
+      "fs": ["./fallback.ts"],
+      "Buffer":["./fallback.ts"],
+      "http": ["./fallback.ts"],
+      "https":["./fallback.ts"],
+      "zlib": ["./fallback.ts"],
+      "url":["./fallback.ts"]
     }
   },
-  "exclude": ["node_modules", "tmp"]
+  "exclude": ["node_modules", "tmp"],
 }

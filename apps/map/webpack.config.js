@@ -2,12 +2,7 @@ const {
   withModuleFederationPlugin, share,
 } = require('@angular-architects/module-federation/webpack');
 const path = require("path");
-const mfNgBindings = require('@angular-architects/module-federation/webpack');
 
-const ngSharedMappings = new mfNgBindings.SharedMappings();
-ngSharedMappings.register(
-  path.join(__dirname, '../../tsconfig.base.json'),
-  [/* mapped paths to share */]);
 
 module.exports = {
   ...withModuleFederationPlugin({
@@ -26,20 +21,20 @@ module.exports = {
       '@angular/router': {singleton: true, strictVersion: true, requiredVersion: '15.1.4', eager: false},
       '@ngxs/store': {singleton: true, strictVersion: true, requiredVersion: '^3.7.6', eager: false},
 
-      ...ngSharedMappings.getDescriptors(),
-    })
+    }),
+    sharedMappings: ['@nx-test/orwell-cesium']
   }),
-  resolve: {
-    fallback: {
-      fs: false,
-      Buffer: false,
-      http: false,
-      https: false,
-      zlib: false,
-      url: false
-    }
-  },
-  module: {
-    unknownContextCritical: false
-  }
+  // resolve: {
+  //   fallback: {
+  //     fs: false,
+  //     Buffer: false,
+  //     http: false,
+  //     https: false,
+  //     zlib: false,
+  //     url: false
+  //   }
+  // },
+  // module: {
+  //   unknownContextCritical: false
+  // }
 }

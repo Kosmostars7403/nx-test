@@ -1,5 +1,4 @@
-<div class="map-container" *ngIf="showFlight">
-  <router-outlet name="map"></router-outlet>
+<div class="map-container" *ngIf="showFlight" nxTestCesium>
 </div>
 
 <ul *ngFor="let report of flightReports" class="flight">

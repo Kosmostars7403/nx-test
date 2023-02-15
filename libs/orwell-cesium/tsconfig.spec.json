@@ -2,18 +2,14 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "../../dist/out-tsc",
-    "types": []
+    "module": "commonjs",
+    "types": ["jest", "node"]
   },
-  "files": [
-    "src/main.ts",
-    "../../fallback.ts"
-  ],
+  "files": ["src/test-setup.ts"],
   "include": [
-    "src/**/*.d.ts"
-  ],
-  "exclude": [
     "jest.config.ts",
     "src/**/*.test.ts",
-    "src/**/*.spec.ts"
+    "src/**/*.spec.ts",
+    "src/**/*.d.ts"
   ]
 }
