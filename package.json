@@ -15,6 +15,7 @@
     "@angular/platform-browser": "15.1.4",
     "@angular/platform-browser-dynamic": "15.1.4",
     "@angular/router": "15.1.4",
+    "@ngxs/store": "^3.7.6",
     "@nrwl/angular": "15.6.3",
     "cesium": "^1.102.0",
     "luxon": "^3.2.1",

@@ -1,5 +1,5 @@
 const {
-  withModuleFederationPlugin,
+  withModuleFederationPlugin, share,
 } = require('@angular-architects/module-federation/webpack');
 const path = require("path");
 const mfNgBindings = require('@angular-architects/module-federation/webpack');
@@ -16,14 +16,14 @@ module.exports = withModuleFederationPlugin({
     "calendarMf": "http://localhost:4202/remoteEntry.js",
   },
 
-  shared: {
+  shared: share({
     '@angular/animations': {singleton: true, strictVersion: true, requiredVersion: '15.1.4', eager: false},
-    '@angular/common': {singleton: true, strictVersion: true, requiredVersion: '15.1.4', eager: false},
+    '@angular/common': {singleton: true, strictVersion: true, requiredVersion: '15.1.4', eager: false, includeSecondaries: true},
     '@angular/compiler': {singleton: true, strictVersion: true, requiredVersion: '15.1.4', eager: false},
     '@angular/core': {singleton: true, strictVersion: true, requiredVersion: '15.1.4', eager: false},
     '@angular/forms': {singleton: true, strictVersion: true, requiredVersion: '15.1.4', eager: false},
     '@angular/router': {singleton: true, strictVersion: true, requiredVersion: '15.1.4', eager: false},
+    '@ngxs/store': {singleton: true, strictVersion: true, requiredVersion: '^3.7.6', eager: false},
     ...ngSharedMappings.getDescriptors(),
-  }
-
+  })
 });

@@ -1,6 +1,8 @@
+import {HttpClientModule} from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
+import {NgxsModule} from '@ngxs/store';
 // import { loadRemoteModule } from '@angular-architects/module-federation';
 
 import { AppComponent } from './app.component';
@@ -9,6 +11,8 @@ import { AppComponent } from './app.component';
   declarations: [AppComponent],
   imports: [
     BrowserModule,
+    HttpClientModule,
+    NgxsModule.forRoot([]),
     RouterModule.forRoot([
 
       // {

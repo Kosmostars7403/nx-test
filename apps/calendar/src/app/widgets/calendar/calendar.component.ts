@@ -1,9 +1,14 @@
 import {Component, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {RouterModule} from '@angular/router';
+import {Select, Store} from '@ngxs/store';
 import {CommonUiSidebarComponent} from '@nx-test/common-ui/sidebar';
 import { DateTime } from "luxon";
-import {BehaviorSubject, Subject} from 'rxjs';
+import {BehaviorSubject, Observable, Subject} from 'rxjs';
+import {FlightReport} from '../../data-access/interfaces/flight.model';
+import {GetFlightReports} from '../../data-access/stores/calendar-store/calendar.actions';
+import {CalendarState} from '../../data-access/stores/calendar-store/calendar.state';
+import {CalendarFlightsComponent} from '../calendar-flights/calendar-flights.component';
 
 const CALENDAR_ROWS_COUNT = 6
 const DAYS_IN_WEEK = 7
@@ -16,17 +21,22 @@ const MONTHS_IN_YEAR = 12
   imports: [
     CommonModule,
     CommonUiSidebarComponent,
-    RouterModule
+    RouterModule,
+    CalendarFlightsComponent
   ],
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.scss'],
 })
 export class CalendarComponent implements OnInit {
-  chosenDay$ = new Subject<DateTime | null>()
   currentMonth = DateTime.now().setLocale('ru-RU')
   month$ = new BehaviorSubject<{month: number, year: number}>({month: 2, year: 2023})
 
+  @Select(CalendarState.getFlightReports) flightReports$!: Observable<FlightReport[]>
+
   sheet: DateTime[][] = []
+
+  constructor(private store: Store) {
+  }
 
   ngOnInit() {
     this.month$.subscribe(({month, year}) => {
@@ -109,11 +119,11 @@ export class CalendarComponent implements OnInit {
   pickDay(target: EventTarget | null) {
     const cellDataset = (target as HTMLElement)?.dataset
     if ('day' in cellDataset && cellDataset['day']) {
-      this.chosenDay$.next(DateTime.fromISO(cellDataset['day']))
+      this.store.dispatch(new GetFlightReports(cellDataset['day']))
     }
   }
 
   clearChosenDay() {
-    this.chosenDay$.next(null)
+    this.store.dispatch(new GetFlightReports(null))
   }
 }

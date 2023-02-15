@@ -1,0 +1,10 @@
+<div class="map-container" *ngIf="showFlight">
+  <router-outlet name="map"></router-outlet>
+</div>
+
+<ul *ngFor="let report of flightReports" class="flight">
+  <li>День недели:{{ report.date | date: 'dd.MM.YYYY'}}</li>
+  <li>Тип полета: {{ report.type }}</li>
+  <li>Срочный вылет: {{ report.isAlarmFlight }}</li>
+  <button (click)="showFlight=true">Показать трек полета</button>
+</ul>

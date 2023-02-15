@@ -24,11 +24,10 @@
 </div>
 
 <nx-test-common-ui-sidebar
-  *ngIf="chosenDay$ | async as chosenDay"
+  *ngIf="flightReports$ | async as flightReports"
   (backdropClick)="clearChosenDay()"
 >
-  <div class="container">
-    <h3>{{ chosenDay.day }} {{chosenDay.monthLong}}</h3>
-    <router-outlet name="map"></router-outlet>
-  </div>
+  <nx-test-calendar-flights
+    [flightReports]="flightReports"
+  ></nx-test-calendar-flights>
 </nx-test-common-ui-sidebar>
