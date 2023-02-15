@@ -1,4 +1,4 @@
-import {Directive, ElementRef} from '@angular/core';
+import {Directive, ElementRef, NgZone} from '@angular/core';
 import {Viewer} from 'cesium';
 
 @Directive({
@@ -6,10 +6,12 @@ import {Viewer} from 'cesium';
   standalone: true
 })
 export class CesiumMapDirective {
-  viewer: Viewer;
+  viewer!: Viewer;
 
-  constructor(private elementRef: ElementRef) {
-    this.viewer = new Viewer(this.elementRef.nativeElement);
+  constructor(private elementRef: ElementRef, private ngZone: NgZone) {
+    this.ngZone.runOutsideAngular(() => {
+      this.viewer = new Viewer(this.elementRef.nativeElement);
+    })
   }
 
 }
