@@ -58,7 +58,6 @@ export class CalendarComponent implements OnInit {
 
   getMonthStartDaysOffset = (month: DateTime): number => {
     const startMonthWeekday = DateTime.local(month.year, month.month, 1).weekday;
-
     return startMonthWeekday >= FIRST_DAY_OF_THE_WEEK
       ? startMonthWeekday - FIRST_DAY_OF_THE_WEEK
       : DAYS_IN_WEEK - (FIRST_DAY_OF_THE_WEEK - startMonthWeekday);
@@ -99,7 +98,7 @@ export class CalendarComponent implements OnInit {
       return
     }
 
-    if (month + increment < 0) {
+    if (month + increment <= 0) {
       this.month$.next({month: 12, year: year - 1})
       return
     }
