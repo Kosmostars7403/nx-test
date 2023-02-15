@@ -14,4 +14,7 @@ export class CalendarFlightsComponent {
   @Input() flightReports: FlightReport[] = []
   showFlight = false
 
+  createFlight() {
+    // empty
+  }
 }
