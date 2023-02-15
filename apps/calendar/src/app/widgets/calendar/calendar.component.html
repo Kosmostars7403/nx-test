@@ -2,7 +2,7 @@
 <h2 class="calendar__title">{{ currentMonth.monthLong }} {{ currentMonth.year }}</h2>
 <button (click)="changeMonth(1)">Следующий</button>
 
-<div class="calendar">
+<div class="calendar" (click)="pickDay($event.target)">
   <div class="calendar__row">
     <div
       *ngFor="let day of sheet[0]"
@@ -18,6 +18,17 @@
     <div
       *ngFor="let day of row"
       class="calendar__cell"
+      [attr.data-day]="day"
     >{{ day.day }} {{day.monthLong}}</div>
   </div>
 </div>
+
+<nx-test-common-ui-sidebar
+  *ngIf="chosenDay$ | async as chosenDay"
+  (backdropClick)="clearChosenDay()"
+>
+  <div class="container">
+    <h3>{{ chosenDay.day }} {{chosenDay.monthLong}}</h3>
+    <router-outlet name="map"></router-outlet>
+  </div>
+</nx-test-common-ui-sidebar>

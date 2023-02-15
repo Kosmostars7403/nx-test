@@ -15,7 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@nx-test/catalog/mylib": ["libs/catalog/mylib/src/index.ts"]
+      "@nx-test/common-ui/sidebar": ["libs/common-ui/sidebar/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

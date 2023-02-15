@@ -12,6 +12,10 @@ ngSharedMappings.register(
 module.exports = withModuleFederationPlugin({
   name: 'calendarMf',
 
+  remotes: {
+    "mapMf": "http://localhost:4201/remoteEntry.js",
+  },
+
   exposes: {
     './routes': './apps/calendar/src/app/app.routes.ts',
   },

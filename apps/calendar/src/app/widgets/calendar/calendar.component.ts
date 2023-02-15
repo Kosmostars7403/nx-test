@@ -1,7 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
+import {RouterModule} from '@angular/router';
+import {CommonUiSidebarComponent} from '@nx-test/common-ui/sidebar';
 import { DateTime } from "luxon";
-import {BehaviorSubject} from 'rxjs';
+import {BehaviorSubject, Subject} from 'rxjs';
 
 const CALENDAR_ROWS_COUNT = 6
 const DAYS_IN_WEEK = 7
@@ -11,13 +13,18 @@ const MONTHS_IN_YEAR = 12
 @Component({
   selector: 'nx-test-calendar',
   standalone: true,
-  imports: [CommonModule],
+  imports: [
+    CommonModule,
+    CommonUiSidebarComponent,
+    RouterModule
+  ],
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.scss'],
 })
 export class CalendarComponent implements OnInit {
+  chosenDay$ = new Subject<DateTime | null>()
   currentMonth = DateTime.now().setLocale('ru-RU')
-  month$ = new BehaviorSubject<{month: number, year: number}>({month: 11, year: 2023})
+  month$ = new BehaviorSubject<{month: number, year: number}>({month: 2, year: 2023})
 
   sheet: DateTime[][] = []
 
@@ -98,5 +105,16 @@ export class CalendarComponent implements OnInit {
     }
 
     this.month$.next({month: month + increment, year})
+  }
+
+  pickDay(target: EventTarget | null) {
+    const cellDataset = (target as HTMLElement)?.dataset
+    if ('day' in cellDataset && cellDataset['day']) {
+      this.chosenDay$.next(DateTime.fromISO(cellDataset['day']))
+    }
+  }
+
+  clearChosenDay() {
+    this.chosenDay$.next(null)
   }
 }

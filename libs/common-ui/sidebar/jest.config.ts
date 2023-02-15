@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-  displayName: 'catalog-mylib',
+  displayName: 'common-ui-sidebar',
   preset: '../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
@@ -9,7 +9,7 @@ export default {
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
-  coverageDirectory: '../../../coverage/libs/catalog/mylib',
+  coverageDirectory: '../../../coverage/libs/common-ui/sidebar',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': 'jest-preset-angular',
   },

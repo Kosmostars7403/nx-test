@@ -1,7 +1,7 @@
-# catalog-mylib
+# common-ui-sidebar
 
 This library was generated with [Nx](https://nx.dev).
 
 ## Running unit tests
 
-Run `nx test catalog-mylib` to execute the unit tests.
+Run `nx test common-ui-sidebar` to execute the unit tests.
