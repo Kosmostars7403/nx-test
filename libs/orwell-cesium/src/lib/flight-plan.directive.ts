@@ -2,12 +2,12 @@ import {Directive, Input, OnInit, Self} from '@angular/core';
 import {
   CallbackProperty,
   Cartesian2,
-  Cartesian3,
+  Cartesian3, Cartographic,
   CircleGeometry,
   Color,
   ColorGeometryInstanceAttribute,
   ColorMaterialProperty,
-  defined,
+  defined, EllipsoidGeodesic,
   Entity,
   GeometryInstance,
   HeightReference,
@@ -77,32 +77,21 @@ export class FlightPlanDirective implements OnInit {
   }
 
   private createRadiuses(areas: Areas) {
-    const circles: GeometryInstance[] = []
-
     const radiuses: number[] = Object.values(areas.radiuses)
 
     for (let i = 0; i < radiuses.length; i++) {
-      const instance = new GeometryInstance({
-        geometry: new CircleGeometry({
-          center: areas.center,
-          radius: radiuses[i],
-          vertexFormat: PerInstanceColorAppearance.VERTEX_FORMAT
-        }),
-        attributes: {
-          color: ColorGeometryInstanceAttribute.fromColor(AREA_COLORS[i]),
+      this.viewer.entities.add({
+        position: areas.center,
+        ellipse: {
+          semiMinorAxis: radiuses[i],
+          semiMajorAxis: radiuses[i],
+          material: AREA_COLORS[i],
+          height: 300
         },
       });
-
-      circles.push(instance)
     }
 
-    this.viewer.scene.primitives.add(
-      new Primitive({
-        geometryInstances: circles,
-        appearance: new PerInstanceColorAppearance()
-      })
-    );
-
+    this.viewer.flyTo(this.viewer.entities)
   }
 
   createPoint(worldPosition: Cartesian3) {
@@ -162,12 +151,12 @@ export class FlightPlanDirective implements OnInit {
   }
 
   checkPosition(clickCoords: Cartesian3, areas: Areas): boolean {
-    const distance = Cartesian2.distance(
-      new Cartesian2(areas.center.x, areas.center.y),
-      new Cartesian2(clickCoords.x, clickCoords.y)
+    const el = new EllipsoidGeodesic(
+      Cartographic.fromCartesian(areas.center),
+      Cartographic.fromCartesian(clickCoords)
     )
 
-    return distance < areas.radiuses.maxRadius
+    return el.surfaceDistance < areas.radiuses.maxRadius
   }
 
   private watchDraw(areas: Areas) {
