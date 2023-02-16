@@ -1,5 +1,5 @@
 import {Directive, ElementRef, NgZone} from '@angular/core';
-import {Viewer} from 'cesium';
+import {createWorldTerrain, Viewer} from 'cesium';
 
 @Directive({
   selector: '[nxTestCesium]',
@@ -10,7 +10,10 @@ export class CesiumDirective {
 
   constructor(private elementRef: ElementRef, private ngZone: NgZone) {
     this.ngZone.runOutsideAngular(() => {
-      this.viewer = new Viewer(this.elementRef.nativeElement);
+      this.viewer = new Viewer(this.elementRef.nativeElement, {
+        terrainProvider: createWorldTerrain(),
+        requestRenderMode: true
+      });
     })
   }
 }

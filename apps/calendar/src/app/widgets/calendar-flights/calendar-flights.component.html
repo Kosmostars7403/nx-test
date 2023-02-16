@@ -1,5 +1,11 @@
-<div class="map-container" *ngIf="showFlight" nxTestCesium>
+<div
+  class="map-container"
+  *ngIf="createFlight"
+  nxTestCesium
+  nxTestFlightPlan
+>
 </div>
+
 
 <ul *ngFor="let report of flightReports" class="flight">
   <li>День недели:{{ report.date | date: 'dd.MM.YYYY'}}</li>
@@ -8,4 +14,4 @@
   <button (click)="showFlight=true">Показать трек полета</button>
 </ul>
 
-<button (click)="createFlight()">Создать полет</button>
+<button (click)="createFlight=true">Создать полет</button>
