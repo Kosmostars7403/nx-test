@@ -2,7 +2,6 @@ import {CommonModule} from '@angular/common';
 import {HttpEventType, HttpResponse} from '@angular/common/http';
 import {Component} from '@angular/core';
 import {FormBuilder, FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
-import {startAgent} from '@nrwl/nx-cloud/lib/core/runners/distributed-agent/distributed-agent.impl';
 import {interval, map, NEVER, startWith, Subject, switchMap} from 'rxjs';
 import {OrthomosaicMakerService} from '../../data-access/services/orthomosaic-maker.service';
 
@@ -30,6 +29,10 @@ export class OrthomosaicMakerComponent {
           startWith(this.orthomosaicMakerService.checkProgress(id)),
           switchMap(() => this.orthomosaicMakerService.checkProgress(id)),
           map(progress => {
+            if (progress.status === 'COMPLETE') this.orthomosaicFlightId$.next(null)
+
+            delete progress.status
+
             return Object.keys(progress).map(key => {
               return {
                 name: key,
@@ -60,8 +63,7 @@ export class OrthomosaicMakerComponent {
           if (event.type === HttpEventType.UploadProgress) {
             this.uploadProgress$.next(Math.round(100 * event.loaded / event.total))
           } else if (event instanceof HttpResponse) {
-            this.orthomosaicFlightId$.next(event?.body?.id)
-            this.orthomosaicFlightId$.next('63f501ae0eda96090adcd928')
+            this.orthomosaicFlightId$.next(event?.body?._id)
           }
         })
     }
