@@ -8,6 +8,7 @@ module.exports = {
     remotes: {
       "mapMf": "http://localhost:4201/remoteEntry.js",
       "calendarMf": "http://localhost:4202/remoteEntry.js",
+      "orthomosaicMakerMf": "http://localhost:4203/remoteEntry.js",
     },
 
     shared: share({

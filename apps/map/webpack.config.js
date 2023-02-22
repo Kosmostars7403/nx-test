@@ -1,7 +1,6 @@
 const {
   withModuleFederationPlugin, share,
 } = require('@angular-architects/module-federation/webpack');
-const path = require("path");
 
 
 module.exports = {

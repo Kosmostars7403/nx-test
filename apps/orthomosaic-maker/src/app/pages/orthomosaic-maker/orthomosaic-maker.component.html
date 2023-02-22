@@ -1,0 +1,28 @@
+<form (ngSubmit)="submit()" [formGroup]="form">
+  <select formControlName="flightType">
+    <option value="test">Test</option>
+    <option value="alarm">По тревоге</option>
+  </select>
+
+  <input
+    type="file"
+    multiple
+    (input)="onDropFile($any($event.target))"
+  >
+
+  <progress
+    *ngIf="uploadProgress$ | async as progress"
+    max="100" [value]="progress"> {{progress}}% </progress>
+
+  <button
+    type="submit"
+    [disabled]="!images"
+  >Загрузить</button>
+</form>
+
+<ng-container *ngIf="processOfMakingOrthomosaic$ | async as progress">
+  <h1>Процесс изготовления ортофотоплана:</h1>
+  <pre>
+    {{ progress | json}}
+  </pre>
+</ng-container>

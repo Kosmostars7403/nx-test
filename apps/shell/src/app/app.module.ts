@@ -49,6 +49,18 @@ import { AppComponent } from './app.component';
         },
       },
 
+      {
+        path: 'orthomosaic',
+        loadChildren: async () => {
+          try {
+            const m = await import('orthomosaicMakerMf/routes');
+            return m.appRoutes;
+          } catch (err) {
+            console.warn('Cannot load module "orthomosaicMaker"', err);
+          }
+        },
+      },
+
     ]),
   ],
   providers: [],
