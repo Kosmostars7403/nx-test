@@ -25,6 +25,6 @@ export class OrthomosaicMakerService {
   }
 
   checkProgress(id: string) {
-    return this.http.get(`http://127.0.0.1:8000/${id}`)
+    return this.http.get<Record<string, number>>(`http://127.0.0.1:8000/${id}`)
   }
 }

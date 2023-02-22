@@ -10,9 +10,10 @@
     (input)="onDropFile($any($event.target))"
   >
 
-  <progress
-    *ngIf="uploadProgress$ | async as progress"
-    max="100" [value]="progress"> {{progress}}% </progress>
+  <div class="progress" *ngIf="uploadProgress$ | async as progress">
+    <progress max="100" [value]="progress"></progress>
+    {{progress}}%
+  </div>
 
   <button
     type="submit"
@@ -22,7 +23,14 @@
 
 <ng-container *ngIf="processOfMakingOrthomosaic$ | async as progress">
   <h1>Процесс изготовления ортофотоплана:</h1>
-  <pre>
-    {{ progress | json}}
-  </pre>
+
+  <ul class="orthomosaic-progress">
+    <li
+      *ngFor="let process of progress"
+    >
+      {{ process.name}}
+      <progress max="100" [value]="process.percent"></progress>
+      {{process.percent}}%
+    </li>
+  </ul>
 </ng-container>
