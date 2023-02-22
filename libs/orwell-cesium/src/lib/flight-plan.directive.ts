@@ -1,20 +1,14 @@
 import {Directive, Input, OnInit, Self} from '@angular/core';
 import {
   CallbackProperty,
-  Cartesian2,
   Cartesian3, Cartographic,
-  CircleGeometry,
   Color,
-  ColorGeometryInstanceAttribute,
   ColorMaterialProperty,
   defined, EllipsoidGeodesic,
   Entity,
-  GeometryInstance,
   HeightReference,
   JulianDate,
-  PerInstanceColorAppearance,
   PolygonHierarchy,
-  Primitive,
   ScreenSpaceEventHandler,
   ScreenSpaceEventType,
   Viewer
@@ -47,7 +41,7 @@ interface Areas {
 export class FlightPlanDirective implements OnInit {
   viewer!: Viewer
 
-  drawingMode: 'LineString' | 'Polygon' = 'LineString'
+  drawingMode: 'LineString' | 'Polygon' = 'Polygon'
 
   activeShapePoints: Cartesian3[] = [];
   activeShape: Entity | undefined;

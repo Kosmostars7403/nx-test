@@ -12,7 +12,8 @@ export class CesiumDirective {
     this.ngZone.runOutsideAngular(() => {
       this.viewer = new Viewer(this.elementRef.nativeElement, {
         terrainProvider: createWorldTerrain(),
-        requestRenderMode: true
+        requestRenderMode: true,
+        selectionIndicator: false
       });
     })
   }
