@@ -33,9 +33,11 @@ export class FieldOfViewComponent implements OnInit {
 
   addRectangularSensor() {
     this.rectangularPyramidSensor.modelMatrix = this.getModelMatrix();
-    this.rectangularPyramidSensor.radius = 10000000.0;
+    this.rectangularPyramidSensor.radius = 100000000.0;
     this.rectangularPyramidSensor.xHalfAngle = Cesium.Math.toRadians(10.0);
     this.rectangularPyramidSensor.yHalfAngle = Cesium.Math.toRadians(20.0);
+    this.rectangularPyramidSensor.intersectionColor = Cesium.Color.WHITE
+    this.rectangularPyramidSensor.intersectionWidth = 1
 
     this.rectangularPyramidSensor.lateralSurfaceMaterial = Cesium.Material.fromType('Color');
     this.rectangularPyramidSensor.lateralSurfaceMaterial.uniforms.color = new Cesium.Color(0.0, 1.0, 1.0, 0.3);
