@@ -1,20 +1,21 @@
-import {HttpClientModule} from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
-import {NgxsModule} from '@ngxs/store';
-// import { loadRemoteModule } from '@angular-architects/module-federation';
+import { NgxsModule } from '@ngxs/store';
 
 import { AppComponent } from './app.component';
+import { MainPageComponent } from './main-page/main-page.component';
+import {CcCesiumModule} from "@cc-cesium";
+import {CESIUM_API_KEY} from "@shared";
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, MainPageComponent],
   imports: [
     BrowserModule,
     HttpClientModule,
     NgxsModule.forRoot([]),
     RouterModule.forRoot([
-
       // {
       //   path: 'map',
       //   loadChildren: () =>
@@ -26,16 +27,21 @@ import { AppComponent } from './app.component';
       // },
 
       {
-        path: 'map',
-        loadChildren: async () => {
-          try {
-            const m = await import('mapMf/routes');
-            return m.appRoutes;
-          } catch (err) {
-            console.warn('Cannot load module "Map"', err);
-          }
-        },
+        path: '',
+        component: MainPageComponent
       },
+
+      // {
+      //   path: 'map',
+      //   loadChildren: async () => {
+      //     try {
+      //       const m = await import('mapMf/routes');
+      //       return m.appRoutes;
+      //     } catch (err) {
+      //       console.warn('Cannot load module "Map"', err);
+      //     }
+      //   },
+      // },
 
       {
         path: 'calendar',
@@ -60,10 +66,15 @@ import { AppComponent } from './app.component';
           }
         },
       },
-
     ]),
+    CcCesiumModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: CESIUM_API_KEY,
+      useValue: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIzZWE4NmU3Mi03MjRhLTQ5NmMtYjYyNi1lOTNlOWFjNWYxNDgiLCJpZCI6MTIzMjM0LCJpYXQiOjE2NzUzNTQ3NjZ9.ksXDKOB00GPQSNZvWLZAhM85oHsTyrcHQblm0VAvI-g'
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

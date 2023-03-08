@@ -1,5 +1,5 @@
 import {Directive, ElementRef, NgZone} from '@angular/core';
-import {createWorldTerrain, Viewer} from 'cesium';
+import {buildModuleUrl, createWorldTerrain, OpenStreetMapImageryProvider, Viewer} from 'cesium';
 
 @Directive({
   selector: '[nxTestCesium]',
@@ -13,7 +13,14 @@ export class CesiumDirective {
       this.viewer = new Viewer(this.elementRef.nativeElement, {
         terrainProvider: createWorldTerrain(),
         requestRenderMode: true,
-        selectionIndicator: false
+        selectionIndicator: false,
+        imageryProvider: new OpenStreetMapImageryProvider({
+          url: buildModuleUrl('http://localhost:8000/')
+          // url: buildModuleUrl('http://localhost:8080/tile/')
+        }),
+        // // imageryProvider: new TileMapServiceImageryProvider({
+        // //   url: buildModuleUrl('http://127.0.0.1:8000/')
+        // // }),
       });
     })
   }

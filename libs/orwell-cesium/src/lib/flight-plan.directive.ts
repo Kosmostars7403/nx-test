@@ -58,8 +58,9 @@ export class FlightPlanDirective implements OnInit {
     }
   })
 
-  constructor(@Self() {viewer}: CesiumDirective) {
-    this.viewer = viewer
+  constructor(@Self() cesiumDirective: CesiumDirective) {
+    if (!cesiumDirective) throw new Error('You must bind FlightPlanDirective directive to node with CesiumDirective')
+    this.viewer = cesiumDirective.viewer
   }
 
   ngOnInit() {
