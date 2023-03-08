@@ -32,7 +32,10 @@
           "apps/shell/src/styles.scss",
           "node_modules/cesium/Build/Cesium/Widgets/widgets.css"
         ],
-        "scripts": [],
+        "scripts": [
+          "node_modules/cesium/Build/Cesium/Cesium.js",
+          "./apps/shell/src/assets/cesium-sensor-volumes.js"
+        ],
         "customWebpackConfig": {
           "path": "apps/shell/webpack.config.js"
         },

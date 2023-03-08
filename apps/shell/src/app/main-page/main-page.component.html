@@ -1,1 +1,20 @@
-<cc-map></cc-map>
+<cc-map
+  [viewerOptions]="viewerOptions"
+>
+  <cc-box
+    [entityOptions]="boxEntityOptions"
+    [graphicsOptions]="boxGraphicsOptions"
+    [zoomTo]="true"
+  ></cc-box>
+
+  <cc-model
+    [entityOptions]="cameraEntityOptions"
+    [modelOptions]="cameraModelOptions"
+  ></cc-model>
+
+  <cc-field-of-view>
+
+  </cc-field-of-view>
+
+
+</cc-map>

@@ -1,6 +1,6 @@
-import {Component, ElementRef, Inject, OnInit, Optional, Renderer2} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, Optional, Renderer2} from '@angular/core';
 import * as Cesium from "cesium";
-import {CESIUM_API_KEY} from "@shared";
+import {CesiumService} from "../../services/cesium.service";
 
 @Component({
   selector: 'cc-map',
@@ -12,9 +12,14 @@ import {CESIUM_API_KEY} from "@shared";
         height: 100%;
       }
     `
-  ]
+  ],
+  providers: [
+    CesiumService
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CcMapComponent implements OnInit {
+  @Input() viewerOptions: any
   private mapContainer!: HTMLElement
 
   viewer!: Cesium.Viewer
@@ -22,32 +27,18 @@ export class CcMapComponent implements OnInit {
   constructor(
     private r2: Renderer2,
     private elementRef: ElementRef,
-    @Optional() @Inject(CESIUM_API_KEY) private apiKey: string,
+    private cesiumService: CesiumService
   ) {
   }
 
   ngOnInit(): void {
     this.createContainer()
-    this.initMap()
+    this.cesiumService.init(this.mapContainer, this, this.viewerOptions)
   }
 
   private createContainer() {
     this.mapContainer = this.r2.createElement('div')
     this.r2.addClass(this.mapContainer, 'cc-map-container')
     this.r2.appendChild(this.elementRef.nativeElement, this.mapContainer)
-  }
-
-  private initMap() {
-    Cesium.Ion.defaultAccessToken = this.apiKey
-
-    this.viewer = new Cesium.Viewer(this.mapContainer, {
-      requestRenderMode: true,
-      baseLayerPicker: false,
-      // terrainProvider: Cesium.createWorldTerrain(),
-      // imageryProvider: new OpenStreetMapImageryProvider({
-      //   url: buildModuleUrl(`http://127.0.0.1:8080`)
-      // }),
-    });
-    this.viewer.scene.globe.depthTestAgainstTerrain = true;
   }
 }
