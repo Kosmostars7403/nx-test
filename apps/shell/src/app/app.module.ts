@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { MainPageComponent } from './main-page/main-page.component';
 import {CcCesiumModule} from "@cc-cesium";
 import {CESIUM_API_KEY} from "@shared";
+import {ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [AppComponent, MainPageComponent],
@@ -68,6 +69,7 @@ import {CESIUM_API_KEY} from "@shared";
       },
     ]),
     CcCesiumModule,
+    ReactiveFormsModule,
   ],
   providers: [
     {

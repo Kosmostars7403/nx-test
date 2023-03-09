@@ -12,5 +12,39 @@
     [modelOptions]="cameraModelOptions"
   ></cc-model>
 
-  <cc-field-of-view></cc-field-of-view>
+  <cc-field-of-view
+    [options]="sensorOptions$ | async"
+  ></cc-field-of-view>
 </cc-map>
+
+<form [formGroup]="form">
+  <label>
+    Twist
+    <input type="number" formControlName="twist" step="0.1"/>
+  </label>
+
+  <label>
+    Clock
+    <input type="number" formControlName="clock" step="0.1"/>
+  </label>
+
+  <label>
+    Cone
+    <input type="number" formControlName="cone" step="0.1"/>
+  </label>
+
+  <label>
+    xAngle
+    <input type="number" formControlName="xAngle"/>
+  </label>
+
+  <label>
+    yAngle
+    <input type="number" formControlName="yAngle"/>
+  </label>
+
+  <label>
+    height
+    <input type="number" formControlName="height"/>
+  </label>
+</form>

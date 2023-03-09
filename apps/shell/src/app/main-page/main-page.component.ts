@@ -1,6 +1,8 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import * as Cesium from "cesium";
 import {Cartesian3} from "cesium";
+import {FormGroup, UntypedFormBuilder} from "@angular/forms";
+import {startWith} from "rxjs";
 
 @Component({
   selector: 'nx-test-main-page',
@@ -29,9 +31,29 @@ export class MainPageComponent {
   viewerOptions = {
     requestRenderMode: true,
     baseLayerPicker: false,
+    shouldAnimate: true
     // terrainProvider: Cesium.createWorldTerrain(),
     // imageryProvider: new OpenStreetMapImageryProvider({
     //   url: buildModuleUrl(`http://127.0.0.1:8080`)
     // }),
   }
+
+  form = this.fb.group({
+    twist: [18.0],
+    clock: [0.799999999999],
+    cone: [5.0],
+    xAngle: [92.6],
+    yAngle: [60.9],
+    lon: [32.3580],
+    lat: [54.7448],
+    height: [180],
+  })
+
+  sensorOptions$ = this.form.valueChanges.pipe(
+    startWith(this.form.value)
+  )
+
+  constructor(private fb: UntypedFormBuilder) {
+  }
+
 }
