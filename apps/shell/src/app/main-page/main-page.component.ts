@@ -23,10 +23,10 @@ export class MainPageComponent {
 
   cameraEntityOptions = {
     name: 'Camera',
-    position: Cesium.Cartesian3.fromDegrees(32.3560, 54.7448, 180),
+    position: Cesium.Cartesian3.fromDegrees(32.3560, 54.7448, 170),
   }
 
-  cameraModelOptions = {uri: '/assets/surveillance_camera.glb', scale: 0.001}
+  cameraModelOptions = {uri: '/assets/security_camera.glb', scale: 0.35}
 
   viewerOptions = {
     requestRenderMode: true,
@@ -39,14 +39,14 @@ export class MainPageComponent {
   }
 
   form = this.fb.group({
-    twist: [18.0],
-    clock: [0.799999999999],
-    cone: [5.0],
+    twist: [0],
+    clock: [90],
+    cone: [45],
     xAngle: [92.6],
     yAngle: [60.9],
-    lon: [32.3580],
+    lon: [32.357],
     lat: [54.7448],
-    height: [180],
+    height: [212],
   })
 
   sensorOptions$ = this.form.valueChanges.pipe(

@@ -19,18 +19,18 @@
 
 <form [formGroup]="form">
   <label>
-    Twist
-    <input type="number" formControlName="twist" step="0.1"/>
+    Тангаж - Z - Twist
+    <input type="number" formControlName="twist" step="1"/>
   </label>
 
   <label>
-    Clock
-    <input type="number" formControlName="clock" step="0.1"/>
+    Рыскание - Y - Clock
+    <input type="number" formControlName="clock" step="1"/>
   </label>
 
   <label>
-    Cone
-    <input type="number" formControlName="cone" step="0.1"/>
+    Крен - X - Cone
+    <input type="number" formControlName="cone" step="1"/>
   </label>
 
   <label>
@@ -46,5 +46,15 @@
   <label>
     height
     <input type="number" formControlName="height"/>
+  </label>
+
+  <label>
+    lon
+    <input type="number" formControlName="lon" step="0.0001"/>
+  </label>
+
+  <label>
+    lat
+    <input type="number" formControlName="lat" step="0.0001"/>
   </label>
 </form>

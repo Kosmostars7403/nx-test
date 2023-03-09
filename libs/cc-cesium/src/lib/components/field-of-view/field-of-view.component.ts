@@ -31,8 +31,12 @@ export class FieldOfViewComponent implements OnInit {
     const location = Cesium.Cartesian3.fromDegrees(this._options.lon, this._options.lat, this._options.height)
     const modelMatrix = Cesium.Transforms.northEastDownToFixedFrame(location as Cesium.Cartesian3);
     const orientation = Cesium.Matrix3.multiply(
-      Cesium.Matrix3.multiply(Cesium.Matrix3.fromRotationZ(this._options.clock), Cesium.Matrix3.fromRotationY(Cesium.Math.toRadians(this._options.cone)), new Cesium.Matrix3()),
-      Cesium.Matrix3.fromRotationX(this._options.twist), new Cesium.Matrix3()
+      Cesium.Matrix3.multiply(
+        Cesium.Matrix3.fromRotationZ(Cesium.Math.toRadians(this._options.clock)),
+        Cesium.Matrix3.fromRotationY(Cesium.Math.toRadians(this._options.cone)),
+        new Cesium.Matrix3()
+      ),
+      Cesium.Matrix3.fromRotationX(Cesium.Math.toRadians(this._options.twist)), new Cesium.Matrix3()
     );
     return Cesium.Matrix4.multiply(modelMatrix, Cesium.Matrix4.fromRotationTranslation(orientation, Cesium.Cartesian3.ZERO), new Cesium.Matrix4());
   }
