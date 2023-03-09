@@ -1,25 +1,69 @@
 import * as Cesium from "cesium";
-import {Directive, Input, OnInit} from "@angular/core";
+import {Directive, EventEmitter, Input, Output} from "@angular/core";
 import {CesiumService} from "../services/cesium.service";
+import {GraphicsTypes} from "../interfaces/graphics-types";
 
 @Directive()
-export class CesiumEntity implements OnInit {
-  @Input()
-  entityOptions: any
-
-  @Input()
-  zoomTo = false
+export class CesiumEntity {
+  private _options!: any
 
   entity!: Cesium.Entity
 
-  constructor(protected cesiumService: CesiumService) {
+  @Input()
+  set entityOptions(opts: any) {
+    this._options = opts
+    this.update(opts)
   }
 
-  ngOnInit(): void {
-    const viewer = this.cesiumService.getViewer()
-    this.entity = viewer.entities.add(this.entityOptions)
+  @Output() added = new EventEmitter<void>()
 
-    if (this.zoomTo) viewer.zoomTo(this.entity)
+  constructor(
+    protected cesiumService: CesiumService,
+    private graphicsTypeName: GraphicsTypes
+  ) {
+  }
+
+  addOnMap() {
+    const viewer = this.cesiumService.getViewer()
+
+    this.entity = viewer.entities.add({
+      id: this._options.id ?? Math.random(),
+      name: this._options.name ?? undefined,
+      position: this._options.position ?? undefined,
+      description: this._options.description ?? undefined,
+      orientation: this._options.orientation ?? undefined,
+      viewFrom: this._options.viewFrom ?? undefined,
+      [this.graphicsTypeName]: this._options,
+    })
+
+    this.added.emit()
+  }
+
+  update(options: any) {
+    if (!this.entity) {
+      this.addOnMap()
+      return
+    }
+
+    if (
+      this.entity.position instanceof Cesium.CallbackProperty &&
+      this.entity.position.isConstant
+    ) {
+        this.entity.position = options.position;
+    }
+
+    this.entity.position = options.position !== undefined ? options.position : undefined;
+    this.entity.name = options.name !== undefined ? options.name : this.entity.name;
+    this.entity.description = options.description !== undefined ? options.description : this.entity.description;
+    this.entity.orientation = options.orientation !== undefined ? options.orientation : this.entity.orientation;
+    this.entity.viewFrom = options.viewFrom !== undefined ? options.viewFrom : this.entity.viewFrom;
+    this.entity.availability = options.availability !== undefined ? options.availability : options.availability;
+
+    Object.assign((this.entity as any)[this.graphicsTypeName], options);
+  }
+
+  zoomTo() {
+    this.cesiumService.getViewer().zoomTo(this.entity)
   }
 
 }

@@ -3,34 +3,32 @@
 >
   <cc-box
     [entityOptions]="boxEntityOptions"
-    [graphicsOptions]="boxGraphicsOptions"
-    [zoomTo]="true"
+    #box="entity"
+    (added)="box.zoomTo()"
   ></cc-box>
 
-  <cc-model
-    [entityOptions]="cameraEntityOptions"
-    [modelOptions]="cameraModelOptions"
-  ></cc-model>
-
-  <cc-field-of-view
-    [options]="sensorOptions$ | async"
-  ></cc-field-of-view>
+  <cc-camera
+    [options]="cameraOptions$ | async"
+  ></cc-camera>
 </cc-map>
+
+
+
 
 <form [formGroup]="form">
   <label>
-    Тангаж - Z - Twist
-    <input type="number" formControlName="twist" step="1"/>
+    Тангаж - Z - Pitch - Twist
+    <input type="number" formControlName="pitch" step="1"/>
   </label>
 
   <label>
-    Рыскание - Y - Clock
-    <input type="number" formControlName="clock" step="1"/>
+    Рыскание - Y - Heading - Clock
+    <input type="number" formControlName="heading" step="1"/>
   </label>
 
   <label>
-    Крен - X - Cone
-    <input type="number" formControlName="cone" step="1"/>
+    Крен - X - Roll - Cone
+    <input type="number" formControlName="roll" step="1"/>
   </label>
 
   <label>
@@ -58,3 +56,5 @@
     <input type="number" formControlName="lat" step="0.0001"/>
   </label>
 </form>
+
+<button (click)="test()" style="margin-top: 32px">Debug button</button>

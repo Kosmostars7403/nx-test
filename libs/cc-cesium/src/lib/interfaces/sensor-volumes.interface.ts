@@ -15,9 +15,9 @@ export interface CesiumSensorVolumes {
 }
 
 export interface SensorFieldOfView {
-  twist: number
-  clock: number
-  cone: number
+  pitch: number
+  heading: number
+  roll: number
   xAngle: number
   yAngle: number
   lon: number

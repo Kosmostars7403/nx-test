@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import * as Cesium from "cesium";
 import {CesiumService} from "../../services/cesium.service";
-import {RectangularPyramidSensorVolume, SensorFieldOfView} from "../../interfaces/sensor-volumes";
+import {RectangularPyramidSensorVolume, SensorFieldOfView} from "../../interfaces/sensor-volumes.interface";
 import '../../decl.d'
 
 @Component({
@@ -32,11 +32,11 @@ export class FieldOfViewComponent implements OnInit {
     const modelMatrix = Cesium.Transforms.northEastDownToFixedFrame(location as Cesium.Cartesian3);
     const orientation = Cesium.Matrix3.multiply(
       Cesium.Matrix3.multiply(
-        Cesium.Matrix3.fromRotationZ(Cesium.Math.toRadians(this._options.clock)),
-        Cesium.Matrix3.fromRotationY(Cesium.Math.toRadians(this._options.cone)),
+        Cesium.Matrix3.fromRotationZ(Cesium.Math.toRadians(this._options.heading)),
+        Cesium.Matrix3.fromRotationY(Cesium.Math.toRadians(this._options.roll)),
         new Cesium.Matrix3()
       ),
-      Cesium.Matrix3.fromRotationX(Cesium.Math.toRadians(this._options.twist)), new Cesium.Matrix3()
+      Cesium.Matrix3.fromRotationX(Cesium.Math.toRadians(this._options.pitch)), new Cesium.Matrix3()
     );
     return Cesium.Matrix4.multiply(modelMatrix, Cesium.Matrix4.fromRotationTranslation(orientation, Cesium.Cartesian3.ZERO), new Cesium.Matrix4());
   }

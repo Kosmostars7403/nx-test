@@ -2,7 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import * as Cesium from "cesium";
 import {Cartesian3} from "cesium";
 import {FormGroup, UntypedFormBuilder} from "@angular/forms";
-import {startWith} from "rxjs";
+import {Observable, startWith} from "rxjs";
+import {CesiumEntity} from "../../../../../libs/cc-cesium/src/lib/abstract/entity.abstract";
+import {CameraOptions} from "../../../../../libs/cc-cesium/src/lib/interfaces/camera.interface";
 
 @Component({
   selector: 'nx-test-main-page',
@@ -12,21 +14,11 @@ import {startWith} from "rxjs";
 export class MainPageComponent {
   boxEntityOptions = {
     name: 'Warehouse',
-    position: Cesium.Cartesian3.fromDegrees(32.35300, 54.744846666667, 100)
-  }
-
-  boxGraphicsOptions = {
+    position: Cesium.Cartesian3.fromDegrees(32.35300, 54.744846666667, 100),
     dimensions: new Cartesian3(400.0, 300.0, 200.0),
     material: Cesium.Color.GRAY,
     outline: true
   }
-
-  cameraEntityOptions = {
-    name: 'Camera',
-    position: Cesium.Cartesian3.fromDegrees(32.3560, 54.7448, 170),
-  }
-
-  cameraModelOptions = {uri: '/assets/security_camera.glb', scale: 0.35}
 
   viewerOptions = {
     requestRenderMode: true,
@@ -39,9 +31,9 @@ export class MainPageComponent {
   }
 
   form = this.fb.group({
-    twist: [0],
-    clock: [90],
-    cone: [45],
+    pitch: [0],
+    heading: [90],
+    roll: [45],
     xAngle: [92.6],
     yAngle: [60.9],
     lon: [32.357],
@@ -53,7 +45,24 @@ export class MainPageComponent {
     startWith(this.form.value)
   )
 
+  cameraOptions$: Observable<CameraOptions> = this.form.valueChanges.pipe(
+    startWith({
+      name: 'Camera1',
+      ...this.form.value
+    })
+  )
+
   constructor(private fb: UntypedFormBuilder) {
+  }
+
+  test() {
+    this.boxEntityOptions = {
+      name: 'Warehouse',
+      position: Cesium.Cartesian3.fromDegrees(32.35300, 54.744846666667, 100),
+      dimensions: new Cartesian3(400.0, 300.0, 200.0),
+      material: Cesium.Color.fromRandom(),
+      outline: true
+    }
   }
 
 }

@@ -5,6 +5,7 @@ import { CcBoxComponent } from './components/cc-box/cc-box.component';
 import { ViewerFactory } from './factories/viewer-factory.service';
 import { CcModelComponent } from './components/cc-model/cc-model.component';
 import { FieldOfViewComponent } from './components/field-of-view/field-of-view.component';
+import { CcCameraComponent } from './components/cc-camera/cc-camera.component';
 
 @NgModule({
   imports: [CommonModule],
@@ -13,12 +14,14 @@ import { FieldOfViewComponent } from './components/field-of-view/field-of-view.c
     CcBoxComponent,
     CcModelComponent,
     FieldOfViewComponent,
+    CcCameraComponent,
   ],
   exports: [
     CcMapComponent,
     CcBoxComponent,
     CcModelComponent,
     FieldOfViewComponent,
+    CcCameraComponent,
   ],
   providers: [ViewerFactory],
 })

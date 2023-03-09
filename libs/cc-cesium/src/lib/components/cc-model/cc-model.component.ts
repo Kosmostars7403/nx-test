@@ -1,21 +1,15 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {CesiumEntity} from "../../abstract/entity.abstract";
 import {CesiumService} from "../../services/cesium.service";
-import * as Cesium from "cesium";
+import {GraphicsTypes} from "../../interfaces/graphics-types";
 
 @Component({
   selector: 'cc-model',
-  template: ''
+  template: '',
+  exportAs: 'entity'
 })
-export class CcModelComponent extends CesiumEntity implements OnInit  {
-  @Input() modelOptions: any
-
+export class CcModelComponent extends CesiumEntity {
   constructor(cesiumService: CesiumService) {
-    super(cesiumService)
-  }
-
-  override ngOnInit() {
-    super.ngOnInit();
-    this.entity.model = new Cesium.ModelGraphics(this.modelOptions)
+    super(cesiumService, GraphicsTypes.MODEL)
   }
 }

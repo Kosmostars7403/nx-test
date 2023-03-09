@@ -1,23 +1,16 @@
-import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import * as Cesium from "cesium";
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {CesiumEntity} from "../../abstract/entity.abstract";
 import {CesiumService} from "../../services/cesium.service";
+import {GraphicsTypes} from "../../interfaces/graphics-types";
 
 @Component({
   selector: 'cc-box',
   template: '',
+  exportAs: 'entity',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CcBoxComponent extends CesiumEntity implements OnInit {
-  @Input() graphicsOptions: any
-
+export class CcBoxComponent extends CesiumEntity {
   constructor(cesiumService: CesiumService) {
-    super(cesiumService)
+    super(cesiumService, GraphicsTypes.BOX)
   }
-
-  override ngOnInit() {
-    super.ngOnInit();
-    this.entity.box = new Cesium.BoxGraphics(this.graphicsOptions)
-  }
-
 }
