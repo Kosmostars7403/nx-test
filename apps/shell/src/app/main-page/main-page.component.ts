@@ -1,17 +1,27 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import * as Cesium from "cesium";
 import {Cartesian3} from "cesium";
-import {FormGroup, UntypedFormBuilder} from "@angular/forms";
-import {Observable, startWith} from "rxjs";
-import {CesiumEntity} from "../../../../../libs/cc-cesium/src/lib/abstract/entity.abstract";
-import {CameraOptions} from "../../../../../libs/cc-cesium/src/lib/interfaces/camera.interface";
+import {UntypedFormBuilder} from "@angular/forms";
+import {Observable, scan, startWith, Subject} from "rxjs";
+import { CameraOptions } from '@cc-cesium';
 
 @Component({
   selector: 'nx-test-main-page',
   templateUrl: './main-page.component.html',
   styleUrls: ['./main-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MainPageComponent {
+  camerasSubject$ = new Subject<CameraOptions[]>()
+
+  cameras$ = this.camerasSubject$.pipe(
+    //@ts-ignore
+    scan((acc: CameraOptions[], camera: CameraOptions) => {
+      acc.push(camera)
+      return acc
+    }, [])
+  )
+
   boxEntityOptions = {
     name: 'Warehouse',
     position: Cesium.Cartesian3.fromDegrees(32.35300, 54.744846666667, 100),
@@ -59,13 +69,8 @@ export class MainPageComponent {
   }
 
   test() {
-    this.boxEntityOptions = {
-      name: 'Warehouse',
-      position: Cesium.Cartesian3.fromDegrees(32.35300, 54.744846666667, 100),
-      dimensions: new Cartesian3(400.0, 300.0, 200.0),
-      material: Cesium.Color.fromRandom(),
-      outline: true
-    }
+    this.camerasSubject$.next(this.form.value)
+
   }
 
 }
