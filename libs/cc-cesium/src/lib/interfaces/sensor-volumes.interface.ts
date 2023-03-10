@@ -18,8 +18,8 @@ export interface SensorFieldOfView {
   pitch: number
   heading: number
   roll: number
-  xAngle: number
-  yAngle: number
+  xAngle?: number
+  yAngle?: number
   lon: number
   lat: number,
   height: number

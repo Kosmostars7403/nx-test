@@ -34,11 +34,14 @@ export class MainPageComponent {
     pitch: [0],
     heading: [90],
     roll: [45],
-    xAngle: [92.6],
-    yAngle: [60.9],
+    // xAngle: [92.6],
+    // yAngle: [60.9],
     lon: [32.357],
     lat: [54.7448],
     height: [212],
+    matrixSize: ['m128'],
+    aspectRatio: ['16/9'],
+    focalLength: [2.8]
   })
 
   sensorOptions$ = this.form.valueChanges.pipe(

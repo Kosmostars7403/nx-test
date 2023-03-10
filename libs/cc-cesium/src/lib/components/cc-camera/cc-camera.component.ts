@@ -1,6 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {CameraOptions} from "../../interfaces/camera.interface";
 import * as Cesium from "cesium";
+import {MATRIX_LIST} from "./matrix-list";
 
 const OFFSET_LON = 0.0009
 const OFFSET_HEIGHT = 35
@@ -34,6 +35,13 @@ export class CcCameraComponent {
       Object.assign(options, {uri: '/assets/security_camera.glb', scale: 0.35})
     }
 
+    Object.assign(options, this.positionModel(options))
+    Object.assign(options, this.calculateFOV(options))
+
+    return options
+  }
+
+  private positionModel(options: CameraOptions) {
     const position = Cesium.Cartesian3.fromDegrees(options.lon - OFFSET_LON, options.lat, options.height - OFFSET_HEIGHT)
     const heading = Cesium.Math.toRadians(options.heading - 90);
     const pitch = Cesium.Math.toRadians(options.pitch);
@@ -43,10 +51,22 @@ export class CcCameraComponent {
       new Cesium.HeadingPitchRoll(heading, pitch, roll)
     );
 
-    options.position = position
-    options.orientation = orientation
+    return {position, orientation}
+  }
 
-    return options
+  calculateFOV(options: CameraOptions) {
+    const {width, height} = MATRIX_LIST[options.aspectRatio][options.matrixSize]
+
+    const calFOV = (size: number) => this.toDegree(2 * Math.atan(size / (2 * options.focalLength)))
+    const xAngle = calFOV(Number(width))
+    const yAngle = calFOV(Number(height))
+
+    return {xAngle, yAngle}
+  }
+
+  toDegree(radians: number): number {
+    return (radians * 180) / Math.PI;
   }
 
 }
+

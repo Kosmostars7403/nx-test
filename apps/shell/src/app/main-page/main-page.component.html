@@ -13,8 +13,6 @@
 </cc-map>
 
 
-
-
 <form [formGroup]="form">
   <label>
     Тангаж - Z - Pitch - Twist
@@ -31,15 +29,15 @@
     <input type="number" formControlName="roll" step="1"/>
   </label>
 
-  <label>
-    xAngle
-    <input type="number" formControlName="xAngle"/>
-  </label>
+<!--  <label>-->
+<!--    xAngle-->
+<!--    <input type="number" formControlName="xAngle"/>-->
+<!--  </label>-->
 
-  <label>
-    yAngle
-    <input type="number" formControlName="yAngle"/>
-  </label>
+<!--  <label>-->
+<!--    yAngle-->
+<!--    <input type="number" formControlName="yAngle"/>-->
+<!--  </label>-->
 
   <label>
     height
@@ -55,6 +53,37 @@
     lat
     <input type="number" formControlName="lat" step="0.0001"/>
   </label>
+
+  <label>
+    focalLength
+    <input type="number" formControlName="focalLength" step="0.1"/>
+  </label>
+
+
+  <label>
+    Размер матрицы
+    <select formControlName="matrixSize">
+      <option value="m14">1/4"</option>
+      <option value="m132">1/3,2"</option>
+      <option value="m13">1/3"</option>
+      <option value="m129">1/2,9"</option>
+      <option selected="" value="m128">1/2,8"</option>
+      <option value="m127">1/2,7"</option>
+      <option value="m125">1/2,5"</option>
+      <option value="m123">1/2,3"</option>
+      <option value="m12">1/2"</option>
+    </select>
+  </label>
+
+  <label>
+    Соотношение сторон
+    <select formControlName="aspectRatio">
+      <option value="4/3">4/3</option>
+      <option value="16/9" selected="">16/9</option>
+    </select>
+  </label>
 </form>
+
+
 
 <button (click)="test()" style="margin-top: 32px">Debug button</button>
