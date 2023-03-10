@@ -13,6 +13,7 @@ export class CesiumEntity {
   set entityOptions(opts: any) {
     this._options = opts
     this.update(opts)
+    this.updateCCProperties(opts)
   }
 
   @Output() added = new EventEmitter<void>()
@@ -67,6 +68,19 @@ export class CesiumEntity {
 
   zoomTo() {
     this.cesiumService.getViewer().zoomTo(this.entity)
+  }
+
+  updateCCProperties(options: any) {
+    if (this.entity) {
+      if ('ccProperties' in this.entity) {
+        //@ts-ignore
+        this.entity['ccProperties'] = options
+      } else {
+        Object.defineProperty(this.entity, 'ccProperties', {
+          value: options
+        })
+      }
+    }
   }
 
 }
