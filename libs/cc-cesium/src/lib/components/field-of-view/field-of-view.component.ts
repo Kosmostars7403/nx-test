@@ -43,7 +43,6 @@ export class FieldOfViewComponent implements OnInit {
 
   adjustRectangularSensor() {
     this.rectangularPyramidSensor.modelMatrix = this.getModelMatrix();
-    this.rectangularPyramidSensor.radius = 100000000.0;
 
     if (this._options.xAngle && this._options.yAngle) {
       this.rectangularPyramidSensor.xHalfAngle = Cesium.Math.toRadians(this._options.xAngle/2);
