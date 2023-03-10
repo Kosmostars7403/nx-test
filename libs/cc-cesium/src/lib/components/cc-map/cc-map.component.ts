@@ -1,4 +1,13 @@
-import {ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, Optional, Renderer2} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef, EventEmitter,
+  HostListener,
+  Input,
+  OnInit,
+  Output,
+  Renderer2
+} from '@angular/core';
 import * as Cesium from "cesium";
 import {CesiumService} from "../../services/cesium.service";
 
@@ -16,10 +25,15 @@ import {CesiumService} from "../../services/cesium.service";
   providers: [
     CesiumService
   ],
+  exportAs: 'map',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CcMapComponent implements OnInit {
   @Input() viewerOptions: any
+  @Output() selectEntity = new EventEmitter<any>()
+
+  selectedEntityID: string | number | null = ''
+
   private mapContainer!: HTMLElement
 
   viewer!: Cesium.Viewer
@@ -33,7 +47,25 @@ export class CcMapComponent implements OnInit {
 
   ngOnInit(): void {
     this.createContainer()
-    this.cesiumService.init(this.mapContainer, this, this.viewerOptions)
+    this.viewer = this.cesiumService.init(this.mapContainer, this, this.viewerOptions)
+
+    this.viewer.screenSpaceEventHandler.setInputAction((movement: any) => {
+      const pickedObject = this.viewer.scene.pick(movement.position);
+
+      if (Cesium.defined(pickedObject) && Cesium.defined(pickedObject.id)) {
+        if (pickedObject.id.id === this.selectedEntityID) return
+
+        this.selectedEntityID = pickedObject.id.id
+        this.selectEntity.emit(pickedObject.id)
+
+      } else {
+        this.selectedEntityID = null
+      }
+    }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+
+    this.viewer.entities.collectionChanged.addEventListener((collection, added, removed, changed) => {
+      console.log(collection, added, removed, changed)
+    });
   }
 
   private createContainer() {

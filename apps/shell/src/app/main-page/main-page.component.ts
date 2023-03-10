@@ -1,9 +1,9 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import * as Cesium from "cesium";
-import {Cartesian3} from "cesium";
+import {Cartesian3, Entity} from "cesium";
 import {UntypedFormBuilder} from "@angular/forms";
 import {Observable, scan, startWith, Subject} from "rxjs";
-import { CameraOptions } from '@cc-cesium';
+import {CameraOptions} from '@cc-cesium';
 
 @Component({
   selector: 'nx-test-main-page',
@@ -12,18 +12,18 @@ import { CameraOptions } from '@cc-cesium';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MainPageComponent {
-  camerasSubject$ = new Subject<CameraOptions[]>()
+  camerasSubject$ = new Subject<CameraOptions>()
 
   cameras$ = this.camerasSubject$.pipe(
-    //@ts-ignore
     scan((acc: CameraOptions[], camera: CameraOptions) => {
       acc.push(camera)
       return acc
-    }, [])
+    }, [] as CameraOptions[])
   )
 
   boxEntityOptions = {
     name: 'Warehouse',
+    id: 1,
     position: Cesium.Cartesian3.fromDegrees(32.35300, 54.744846666667, 100),
     dimensions: new Cartesian3(400.0, 300.0, 200.0),
     material: Cesium.Color.GRAY,
@@ -33,7 +33,8 @@ export class MainPageComponent {
   viewerOptions = {
     requestRenderMode: true,
     baseLayerPicker: false,
-    shouldAnimate: true
+    shouldAnimate: true,
+    selectionIndicator: false
     // terrainProvider: Cesium.createWorldTerrain(),
     // imageryProvider: new OpenStreetMapImageryProvider({
     //   url: buildModuleUrl(`http://127.0.0.1:8080`)
@@ -65,12 +66,15 @@ export class MainPageComponent {
     })
   )
 
+  onSelectEntity(entity: Entity) {
+    console.log(entity)
+  }
+
   constructor(private fb: UntypedFormBuilder) {
   }
 
   test() {
     this.camerasSubject$.next(this.form.value)
-
   }
 
 }

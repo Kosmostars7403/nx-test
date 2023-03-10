@@ -26,6 +26,8 @@ export class CesiumService {
       this.viewer = this.viewerFactory.createViewer(mapContainer, viewerOptions);
       this.viewer.scene.globe.depthTestAgainstTerrain = true;
     });
+
+    return this.viewer
   }
 
   getViewer() {

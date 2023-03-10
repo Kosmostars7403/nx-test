@@ -7,6 +7,7 @@ import { CcModelComponent } from './components/cc-model/cc-model.component';
 import { FieldOfViewComponent } from './components/field-of-view/field-of-view.component';
 import { CcCameraComponent } from './components/cc-camera/cc-camera.component';
 import { CameraOptions } from './interfaces/camera.interface';
+import { CesiumService } from './services/cesium.service';
 
 @NgModule({
   imports: [CommonModule],
@@ -29,5 +30,7 @@ import { CameraOptions } from './interfaces/camera.interface';
 export class CcCesiumModule {}
 
 export {
-  CameraOptions
+  CameraOptions,
+  CcMapComponent,
+  CesiumService
 }

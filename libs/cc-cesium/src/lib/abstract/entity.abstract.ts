@@ -36,6 +36,9 @@ export class CesiumEntity {
       [this.graphicsTypeName]: this._options,
     })
 
+    Object.defineProperty(this.entity, 'ccComp', {
+      value: this
+    })
     this.added.emit()
   }
 
