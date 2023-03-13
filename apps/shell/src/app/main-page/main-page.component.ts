@@ -3,7 +3,7 @@ import * as Cesium from "cesium";
 import {Cartesian3, Entity} from "cesium";
 import {UntypedFormBuilder} from "@angular/forms";
 import {Observable, scan, startWith, Subject} from "rxjs";
-import {CameraEntity, CameraOptions} from '@cc-cesium';
+import {CameraEntity, CameraOptions, CcMapComponent} from '@cc-cesium';
 import {CcCameraComponent} from "../../../../../libs/cc-cesium/src/lib/components/cc-camera/cc-camera.component";
 
 @Component({
@@ -68,7 +68,7 @@ export class MainPageComponent {
   )
 
   onSelectEntity(entity: Entity) {
-    (entity as CameraEntity).sensor.toggle()
+    console.log(entity)
   }
 
   constructor(private fb: UntypedFormBuilder) {
@@ -82,4 +82,39 @@ export class MainPageComponent {
     cameraComp.showFPV()
   }
 
+  resetFPV(map: CcMapComponent) {
+    // map.viewer.camera.frustum = new Cesium.PerspectiveFrustum()
+    const cam = map.viewer.camera
+
+  }
+
+  test(map: CcMapComponent) {
+    const videoEl = document.querySelector('#myVideo')
+    const viewer = map.viewer
+    const cam = map.viewer.camera
+
+    const posUL = cam.pickEllipsoid(new Cesium.Cartesian2(0, 0), Cesium.Ellipsoid.WGS84);
+    const posLR = cam.pickEllipsoid(new Cesium.Cartesian2(viewer.canvas.width, viewer.canvas.height), Cesium.Ellipsoid.WGS84);
+    const posLL = cam.pickEllipsoid(new Cesium.Cartesian2(0, viewer.canvas.height), Cesium.Ellipsoid.WGS84);
+    const posUR = cam.pickEllipsoid(new Cesium.Cartesian2(viewer.canvas.width, 0), Cesium.Ellipsoid.WGS84);
+
+
+    const polygon = viewer.entities.add({
+      polygon: {
+        hierarchy: new Cesium.PolygonHierarchy([
+          //@ts-ignore
+          posUL, posUR, posLR, posLL,
+        ]),
+          //@ts-ignore
+        material: videoEl
+      },
+    })
+    console.log(polygon)
+    new Cesium.VideoSynchronizer({
+           clock : viewer.clock,
+          //@ts-ignore
+           element : videoEl
+     });
+
+  }
 }

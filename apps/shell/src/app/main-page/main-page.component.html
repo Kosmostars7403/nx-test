@@ -78,6 +78,14 @@
 </form>
 
 
+<div class="btns">
+  <button (click)="toggleFOV(camera)" style="margin-top: 32px">Toggle sensor</button>
+  <button (click)="showFPV(camera)" style="margin-top: 32px">FPV</button>
+  <button (click)="resetFPV(map)" style="margin-top: 32px">reset FPV</button>
+  <button (click)="test(map)" style="margin-top: 32px">PEW</button>
+</div>
 
-<button (click)="toggleFOV(camera)" style="margin-top: 32px">Toggle sensor</button>
-<button (click)="showFPV(camera)" style="margin-top: 32px">FPV</button>
+
+<video id="myVideo" [muted]="true" autoplay="" loop="" crossorigin="" controls="" style="display: none">
+  <source src="/assets/234.mov">
+</video>

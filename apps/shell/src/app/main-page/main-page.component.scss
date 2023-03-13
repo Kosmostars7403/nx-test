@@ -3,3 +3,14 @@ form {
   grid-template-columns: repeat(3, 250px);
   grid-gap: 32px;
 }
+
+.btns {
+  display: grid;
+  grid-gap: 30px;
+  grid-auto-flow: column;
+
+  button {
+    width: 250px;
+    height: 48px;
+  }
+}

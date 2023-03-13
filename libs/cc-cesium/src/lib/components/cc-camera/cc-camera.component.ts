@@ -83,6 +83,11 @@ export class CcCameraComponent extends CcModelComponent {
       fov : Cesium.Math.toRadians(this.fovOptions.xAngle ?? 0),
       aspectRatio: this.fovOptions.aspectRatio == '16/9' ? 16/9 : 4/3,
     });
+
+    console.log(this.cesiumService.getViewer().camera.frustum)
+    console.log(this.cesiumService.getViewer().camera)
+
+
   }
 }
 
