@@ -8,6 +8,8 @@ export interface RectangularPyramidSensorVolume {
   intersectionColor: Cesium.Color
   intersectionWidth: number
   lateralSurfaceMaterial: Cesium.Material
+  show: boolean
+  toggle(): void
 }
 
 export interface CesiumSensorVolumes {

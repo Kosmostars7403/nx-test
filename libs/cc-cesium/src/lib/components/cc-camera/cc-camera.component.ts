@@ -1,7 +1,10 @@
-import {Component, Input} from '@angular/core';
-import {CameraOptions} from "../../interfaces/camera.interface";
+import {Component, Input, ViewChild} from '@angular/core';
+import {CameraEntity, CameraOptions} from "../../interfaces/camera.interface";
 import * as Cesium from "cesium";
 import {MATRIX_LIST} from "./matrix-list";
+import {CcModelComponent} from "../cc-model/cc-model.component";
+import {SensorFieldOfView} from "../../interfaces/sensor-volumes.interface";
+import {FieldOfViewComponent} from "../field-of-view/field-of-view.component";
 
 const OFFSET_LON = 0.0009
 const OFFSET_HEIGHT = 35
@@ -10,24 +13,25 @@ const OFFSET_HEIGHT = 35
 @Component({
   selector: 'cc-camera',
   template: `
-    <ng-container *ngIf="entityOptions">
-      <cc-model
-        [entityOptions]="entityOptions"
-      ></cc-model>
-      <cc-field-of-view
-        [options]="entityOptions"
-      ></cc-field-of-view>
-    </ng-container>
+    <cc-field-of-view
+      [options]="fovOptions"
+    ></cc-field-of-view>
   `,
 })
-export class CcCameraComponent {
-
-  entityOptions: CameraOptions | null = null
+export class CcCameraComponent extends CcModelComponent {
+  @ViewChild(FieldOfViewComponent)
+  set fovComp(comp: FieldOfViewComponent) {
+    if (comp) {
+      (this.entity as CameraEntity)['sensor'] = comp.sensor
+    }
+  }
+  fovOptions!: SensorFieldOfView
 
   @Input()
   set options(options: CameraOptions | null) {
     if (!options) return
     this.entityOptions = this.processOptions(options)
+    this.fovOptions = options
   }
 
   private processOptions(options: CameraOptions): CameraOptions {

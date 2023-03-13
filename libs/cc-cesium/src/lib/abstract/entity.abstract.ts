@@ -1,10 +1,11 @@
 import * as Cesium from "cesium";
-import {Directive, EventEmitter, Input, Output} from "@angular/core";
+import {Directive, EventEmitter, Input, OnDestroy, Output} from "@angular/core";
 import {CesiumService} from "../services/cesium.service";
 import {GraphicsTypes} from "../interfaces/graphics-types";
+import {ICesiumEntity} from "../interfaces/cesium-entity.interface";
 
 @Directive()
-export class CesiumEntity {
+export class CesiumEntity implements ICesiumEntity, OnDestroy {
   private _options!: any
 
   entity!: Cesium.Entity
@@ -72,15 +73,13 @@ export class CesiumEntity {
 
   updateCCProperties(options: any) {
     if (this.entity) {
-      if ('ccProperties' in this.entity) {
-        //@ts-ignore
-        this.entity['ccProperties'] = options
-      } else {
-        Object.defineProperty(this.entity, 'ccProperties', {
-          value: options
-        })
-      }
+      //@ts-ignore
+      this.entity['ccProperties'] = options
     }
+  }
+
+  ngOnDestroy() {
+    this.cesiumService.getViewer()?.entities.remove(this.entity);
   }
 
 }

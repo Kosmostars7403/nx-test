@@ -9,7 +9,7 @@ import '../../decl.d'
   template: ''
 })
 export class FieldOfViewComponent implements OnInit {
-  rectangularPyramidSensor: RectangularPyramidSensorVolume = new CesiumSensorVolumes.RectangularPyramidSensorVolume();
+  sensor: RectangularPyramidSensorVolume = new CesiumSensorVolumes.RectangularPyramidSensorVolume();
 
   _options!: SensorFieldOfView;
 
@@ -23,7 +23,11 @@ export class FieldOfViewComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.cesiumService.getViewer().scene.primitives.add(this.rectangularPyramidSensor);
+    this.cesiumService.getViewer().scene.primitives.add(this.sensor);
+
+    this.sensor.toggle = function() {
+      this.show = !this.show
+    }
   }
 
 
@@ -42,16 +46,16 @@ export class FieldOfViewComponent implements OnInit {
   }
 
   adjustRectangularSensor() {
-    this.rectangularPyramidSensor.modelMatrix = this.getModelMatrix();
+    this.sensor.modelMatrix = this.getModelMatrix();
 
     if (this._options.xAngle && this._options.yAngle) {
-      this.rectangularPyramidSensor.xHalfAngle = Cesium.Math.toRadians(this._options.xAngle/2);
-      this.rectangularPyramidSensor.yHalfAngle = Cesium.Math.toRadians(this._options.yAngle/2);
+      this.sensor.xHalfAngle = Cesium.Math.toRadians(this._options.xAngle/2);
+      this.sensor.yHalfAngle = Cesium.Math.toRadians(this._options.yAngle/2);
     }
 
-    this.rectangularPyramidSensor.intersectionColor = Cesium.Color.WHITE
-    this.rectangularPyramidSensor.intersectionWidth = 1
-    this.rectangularPyramidSensor.lateralSurfaceMaterial = Cesium.Material.fromType('Color');
-    this.rectangularPyramidSensor.lateralSurfaceMaterial.uniforms.color = new Cesium.Color(0.0, 1.0, 1.0, 0.3);
+    this.sensor.intersectionColor = Cesium.Color.WHITE
+    this.sensor.intersectionWidth = 1
+    this.sensor.lateralSurfaceMaterial = Cesium.Material.fromType('Color');
+    this.sensor.lateralSurfaceMaterial.uniforms.color = new Cesium.Color(0.0, 1.0, 1.0, 0.3);
   }
 }

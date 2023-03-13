@@ -9,8 +9,7 @@
   ></cc-box>
 
   <cc-camera
-    *ngFor="let camera of cameras$ | async"
-    [options]="camera"
+    [options]="cameraOptions$ | async"
   ></cc-camera>
 </cc-map>
 

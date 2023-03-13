@@ -3,7 +3,7 @@ import * as Cesium from "cesium";
 import {Cartesian3, Entity} from "cesium";
 import {UntypedFormBuilder} from "@angular/forms";
 import {Observable, scan, startWith, Subject} from "rxjs";
-import {CameraOptions} from '@cc-cesium';
+import {CameraEntity, CameraOptions} from '@cc-cesium';
 
 @Component({
   selector: 'nx-test-main-page',
@@ -67,7 +67,7 @@ export class MainPageComponent {
   )
 
   onSelectEntity(entity: Entity) {
-    console.log(entity)
+    (entity as CameraEntity).sensor.toggle()
   }
 
   constructor(private fb: UntypedFormBuilder) {
