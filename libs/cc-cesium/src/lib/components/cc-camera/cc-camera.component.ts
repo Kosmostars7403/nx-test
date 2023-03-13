@@ -1,5 +1,5 @@
 import {Component, Input, ViewChild} from '@angular/core';
-import {CameraEntity, CameraOptions} from "../../interfaces/camera.interface";
+import {CameraEntity, CameraOptions, ICameraComponent} from "../../interfaces/camera.interface";
 import * as Cesium from "cesium";
 import {MATRIX_LIST} from "./matrix-list";
 import {CcModelComponent} from "../cc-model/cc-model.component";
@@ -17,6 +17,7 @@ const OFFSET_HEIGHT = 35
       [options]="fovOptions"
     ></cc-field-of-view>
   `,
+  exportAs: 'entity'
 })
 export class CcCameraComponent extends CcModelComponent {
   @ViewChild(FieldOfViewComponent)
@@ -47,9 +48,9 @@ export class CcCameraComponent extends CcModelComponent {
 
   private positionModel(options: CameraOptions) {
     const position = Cesium.Cartesian3.fromDegrees(options.lon - OFFSET_LON, options.lat, options.height - OFFSET_HEIGHT)
-    const heading = Cesium.Math.toRadians(options.heading - 90);
+    const heading = Cesium.Math.toRadians(options.heading-90);
     const pitch = Cesium.Math.toRadians(options.pitch);
-    const roll = Cesium.Math.toRadians(0);
+    const roll = Cesium.Math.toRadians(options.roll);
     const orientation = Cesium.Transforms.headingPitchRollQuaternion(
       position,
       new Cesium.HeadingPitchRoll(heading, pitch, roll)
@@ -61,16 +62,27 @@ export class CcCameraComponent extends CcModelComponent {
   calculateFOV(options: CameraOptions) {
     const {width, height} = MATRIX_LIST[options.aspectRatio][options.matrixSize]
 
-    const calFOV = (size: number) => this.toDegree(2 * Math.atan(size / (2 * options.focalLength)))
+    const calFOV = (size: number) => Cesium.Math.toDegrees(2 * Math.atan(size / (2 * options.focalLength)))
     const xAngle = calFOV(Number(width))
     const yAngle = calFOV(Number(height))
 
     return {xAngle, yAngle}
   }
 
-  toDegree(radians: number): number {
-    return (radians * 180) / Math.PI;
-  }
+  showFPV() {
+    this.cesiumService.getViewer().camera.flyTo({
+      destination: Cesium.Cartesian3.fromDegrees(this.fovOptions.lon, this.fovOptions.lat, this.fovOptions.height),
+      orientation: {
+        heading: Cesium.Math.toRadians(this.fovOptions.heading),
+        pitch: Cesium.Math.toRadians(this.fovOptions.pitch),
+        roll: Cesium.Math.toRadians(this.fovOptions.roll)
+      }
+    })
 
+    this.cesiumService.getViewer().camera.frustum = new Cesium.PerspectiveFrustum({
+      fov : Cesium.Math.toRadians(this.fovOptions.xAngle ?? 0),
+      aspectRatio: this.fovOptions.aspectRatio == '16/9' ? 16/9 : 4/3,
+    });
+  }
 }
 

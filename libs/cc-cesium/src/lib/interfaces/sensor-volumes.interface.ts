@@ -23,6 +23,7 @@ export interface SensorFieldOfView {
   xAngle?: number
   yAngle?: number
   lon: number
-  lat: number,
+  lat: number
   height: number
+  aspectRatio: "4/3" | "16/9"
 }

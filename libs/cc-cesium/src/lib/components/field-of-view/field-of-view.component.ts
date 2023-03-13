@@ -37,10 +37,10 @@ export class FieldOfViewComponent implements OnInit {
     const orientation = Cesium.Matrix3.multiply(
       Cesium.Matrix3.multiply(
         Cesium.Matrix3.fromRotationZ(Cesium.Math.toRadians(this._options.heading)),
-        Cesium.Matrix3.fromRotationY(Cesium.Math.toRadians(this._options.roll)),
+        Cesium.Matrix3.fromRotationY(Cesium.Math.toRadians(this._options.pitch + 90)),
         new Cesium.Matrix3()
       ),
-      Cesium.Matrix3.fromRotationX(Cesium.Math.toRadians(this._options.pitch)), new Cesium.Matrix3()
+      Cesium.Matrix3.fromRotationX(Cesium.Math.toRadians(this._options.roll)), new Cesium.Matrix3()
     );
     return Cesium.Matrix4.multiply(modelMatrix, Cesium.Matrix4.fromRotationTranslation(orientation, Cesium.Cartesian3.ZERO), new Cesium.Matrix4());
   }
@@ -58,4 +58,6 @@ export class FieldOfViewComponent implements OnInit {
     this.sensor.lateralSurfaceMaterial = Cesium.Material.fromType('Color');
     this.sensor.lateralSurfaceMaterial.uniforms.color = new Cesium.Color(0.0, 1.0, 1.0, 0.3);
   }
+
+
 }

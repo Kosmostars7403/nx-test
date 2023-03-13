@@ -4,6 +4,7 @@ import {Cartesian3, Entity} from "cesium";
 import {UntypedFormBuilder} from "@angular/forms";
 import {Observable, scan, startWith, Subject} from "rxjs";
 import {CameraEntity, CameraOptions} from '@cc-cesium';
+import {CcCameraComponent} from "../../../../../libs/cc-cesium/src/lib/components/cc-camera/cc-camera.component";
 
 @Component({
   selector: 'nx-test-main-page',
@@ -42,9 +43,9 @@ export class MainPageComponent {
   }
 
   form = this.fb.group({
-    pitch: [0],
+    pitch: [-45],
     heading: [90],
-    roll: [45],
+    roll: [0],
     // xAngle: [92.6],
     // yAngle: [60.9],
     lon: [32.357],
@@ -73,8 +74,12 @@ export class MainPageComponent {
   constructor(private fb: UntypedFormBuilder) {
   }
 
-  test() {
-    this.camerasSubject$.next(this.form.value)
+  toggleFOV(cameraComp: CcCameraComponent) {
+    (cameraComp.entity as CameraEntity).sensor.toggle()
+  }
+
+  showFPV(cameraComp: CcCameraComponent) {
+    cameraComp.showFPV()
   }
 
 }

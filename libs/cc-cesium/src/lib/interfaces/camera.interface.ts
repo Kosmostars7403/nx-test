@@ -10,7 +10,10 @@ export interface CameraOptions extends SensorFieldOfView {
   focalLength: number
 }
 
-
 export interface CameraEntity extends Cesium.Entity {
   sensor: RectangularPyramidSensorVolume
+}
+
+export interface ICameraComponent {
+  entity: CameraEntity
 }

@@ -1,6 +1,7 @@
 <cc-map
   [viewerOptions]="viewerOptions"
   (selectEntity)="onSelectEntity($event)"
+  #map="map"
 >
   <cc-box
     [entityOptions]="boxEntityOptions"
@@ -10,6 +11,7 @@
 
   <cc-camera
     [options]="cameraOptions$ | async"
+    #camera="entity"
   ></cc-camera>
 </cc-map>
 
@@ -29,16 +31,6 @@
     Крен - X - Roll - Cone
     <input type="number" formControlName="roll" step="1"/>
   </label>
-
-<!--  <label>-->
-<!--    xAngle-->
-<!--    <input type="number" formControlName="xAngle"/>-->
-<!--  </label>-->
-
-<!--  <label>-->
-<!--    yAngle-->
-<!--    <input type="number" formControlName="yAngle"/>-->
-<!--  </label>-->
 
   <label>
     height
@@ -87,4 +79,5 @@
 
 
 
-<button (click)="test()" style="margin-top: 32px">Debug button</button>
+<button (click)="toggleFOV(camera)" style="margin-top: 32px">Toggle sensor</button>
+<button (click)="showFPV(camera)" style="margin-top: 32px">FPV</button>
