@@ -1,10 +1,12 @@
-import {Directive, Input, OnInit, Self} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output} from "@angular/core";
 import {
   CallbackProperty,
-  Cartesian3, Cartographic,
+  Cartesian3,
+  Cartographic,
   Color,
   ColorMaterialProperty,
-  defined, EllipsoidGeodesic,
+  defined,
+  EllipsoidGeodesic,
   Entity,
   HeightReference,
   JulianDate,
@@ -12,10 +14,12 @@ import {
   ScreenSpaceEventHandler,
   ScreenSpaceEventType,
   Viewer
-} from 'cesium';
-import {Observable, of} from 'rxjs';
-import { CesiumDirective } from './cesium.directive';
-import {GeoJsonPreparer} from '../../../cc-cesium/src/lib/utils/geojson-preparer';
+} from "cesium";
+import {CesiumService} from "../services/cesium.service";
+import {Observable, of} from "rxjs";
+import {GeoJsonPreparer} from "../utils/geojson-preparer";
+import {Areas} from "../interfaces/drone-areas.interface"
+import * as Cesium from "cesium";
 
 const AREA_COLORS = [
   Color.BLUE.withAlpha(0.3),
@@ -24,73 +28,76 @@ const AREA_COLORS = [
   Color.RED.withAlpha(0.3),
 ]
 
-interface Areas {
-  center: Cartesian3,
-  radiuses: {
-    videoRadius: number,
-    remoteControlRadius: number,
-    effectiveRadius: number,
-    maxRadius: number
-  }
-}
-
-@Directive({
-  selector: '[nxTestFlightPlan]',
-  standalone: true
+@Component({
+  selector: 'cc-flight-plan-draw',
+  template: '',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FlightPlanDirective implements OnInit {
+export class CCDrawComponent implements OnInit, OnDestroy{
   viewer!: Viewer
 
+  @Input()
   drawingMode: 'LineString' | 'Polygon' = 'Polygon'
+
+  @Input()
+  droneAvailableAreas$: Observable<Areas | null> = of(null)
+
+  @Output() planReady = new EventEmitter<any>()
 
   activeShapePoints: Cartesian3[] = [];
   activeShape: Entity | undefined;
   floatingPoint: Entity | undefined;
 
-  @Input()
-  droneAvailableAreas$: Observable<Areas> = of({
-    center: Cartesian3.fromDegrees(-75.59777, 40.03883),
-    radiuses: {
-      videoRadius: 5000,
-      remoteControlRadius: 15000,
-      effectiveRadius: 25000,
-      maxRadius: 52000
-    }
-  })
+  shapesDataSource!: Cesium.DataSource
+  areasDataSource!: Cesium.DataSource
 
-  constructor(@Self() cesiumDirective: CesiumDirective) {
-    if (!cesiumDirective) throw new Error('You must bind FlightPlanDirective directive to node with CesiumDirective')
-    this.viewer = cesiumDirective.viewer
-  }
+  constructor(
+    private cesiumService: CesiumService
+  ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
+    this.viewer = this.cesiumService.getViewer()
+    await this.createDataSources()
+
     this.droneAvailableAreas$.subscribe(areas => {
+      if (!areas) return
       this.createRadiuses(areas)
       this.watchDraw(areas)
     })
+  }
 
+  ngOnDestroy() {
+    this.shapesDataSource.entities.removeAll()
+    this.areasDataSource.entities.removeAll()
+    this.viewer.dataSources.remove(this.shapesDataSource)
+    this.viewer.dataSources.remove(this.areasDataSource)
+  }
+
+  private async createDataSources() {
+    this.shapesDataSource = await this.viewer.dataSources.add(new Cesium.CustomDataSource(`shapesDataSource${Math.random()}`))
+    this.areasDataSource = await this.viewer.dataSources.add(new Cesium.CustomDataSource(`areasDataSource${Math.random()}`))
   }
 
   private createRadiuses(areas: Areas) {
     const radiuses: number[] = Object.values(areas.radiuses)
 
     for (let i = 0; i < radiuses.length; i++) {
-      this.viewer.entities.add({
+      this.areasDataSource.entities.add({
         position: areas.center,
         ellipse: {
           semiMinorAxis: radiuses[i],
           semiMajorAxis: radiuses[i],
           material: AREA_COLORS[i],
-          height: 300
+          heightReference: HeightReference.CLAMP_TO_GROUND
         },
       });
     }
 
-    this.viewer.flyTo(this.viewer.entities)
+    this.viewer.flyTo(this.areasDataSource.entities)
   }
 
   createPoint(worldPosition: Cartesian3) {
-    return this.viewer.entities.add({
+    return this.shapesDataSource.entities.add({
       position: worldPosition,
       point: {
         color: Color.WHITE,
@@ -103,7 +110,7 @@ export class FlightPlanDirective implements OnInit {
   drawShape(positionData: any) {
     let shape;
     if (this.drawingMode === 'LineString') {
-      shape = this.viewer.entities.add({
+      shape = this.shapesDataSource.entities.add({
         polyline: {
           positions: positionData,
           clampToGround: true,
@@ -111,7 +118,7 @@ export class FlightPlanDirective implements OnInit {
         },
       });
     } else if (this.drawingMode === 'Polygon') {
-      shape = this.viewer.entities.add({
+      shape = this.shapesDataSource.entities.add({
         polygon: {
           hierarchy: positionData,
           material: new ColorMaterialProperty(
@@ -126,20 +133,24 @@ export class FlightPlanDirective implements OnInit {
   finishDrawing() {
     this.activeShapePoints.pop();
     const shape = this.drawShape(this.activeShapePoints);
+
+    let geoJson
+
     if (this.drawingMode === 'Polygon') {
       const hierarchy = shape?.polygon?.hierarchy?.getValue(JulianDate.now())
-      const geoJson = new GeoJsonPreparer(this.drawingMode, hierarchy.positions)
+      geoJson = new GeoJsonPreparer(this.drawingMode, hierarchy.positions)
         .toGeoJSon()?.normalizeIntoFeatureCollection()
-      console.log(geoJson)
+
     } else {
       const positions = shape?.polyline?.positions?.getValue(JulianDate.now())
-      const geoJson = new GeoJsonPreparer(this.drawingMode, positions)
+      geoJson = new GeoJsonPreparer(this.drawingMode, positions)
         .toGeoJSon()?.normalizeIntoFeatureCollection()
-      console.log(geoJson)
     }
 
-    if (this.floatingPoint) this.viewer.entities.remove(this.floatingPoint);
-    if (this.activeShape) this.viewer.entities.remove(this.activeShape);
+    this.planReady.emit(geoJson)
+
+    if (this.floatingPoint) this.shapesDataSource.entities.remove(this.floatingPoint);
+    if (this.activeShape) this.shapesDataSource.entities.remove(this.activeShape);
     this.floatingPoint = undefined;
     this.activeShape = undefined;
     this.activeShapePoints = [];
@@ -167,15 +178,17 @@ export class FlightPlanDirective implements OnInit {
 
       if (defined(earthPosition)) {
         if (!this.checkPosition(earthPosition, areas)) return
-        if (this.activeShapePoints.length === 0) {
+        if (this.activeShapePoints && this.activeShapePoints.length === 0) {
           this.floatingPoint = this.createPoint(earthPosition);
           this.activeShapePoints.push(earthPosition);
+
           const dynamicPositions = new CallbackProperty(() => {
             if (this.drawingMode === 'Polygon') {
               return new PolygonHierarchy(this.activeShapePoints);
             }
             return this.activeShapePoints;
           }, false);
+
           this.activeShape = this.drawShape(dynamicPositions);
         }
         this.activeShapePoints.push(earthPosition);
@@ -193,7 +206,7 @@ export class FlightPlanDirective implements OnInit {
       }
     }, ScreenSpaceEventType.MOUSE_MOVE);
 
-    handler.setInputAction((event: any) => {
+    handler.setInputAction(() => {
       this.finishDrawing();
     }, ScreenSpaceEventType.RIGHT_CLICK);
   }

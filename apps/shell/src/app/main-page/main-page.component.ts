@@ -2,9 +2,9 @@ import {ChangeDetectionStrategy, Component} from '@angular/core';
 import * as Cesium from "cesium";
 import {Cartesian3, Entity, HeightReference} from "cesium";
 import {UntypedFormBuilder} from "@angular/forms";
-import {Observable, scan, startWith, Subject} from "rxjs";
+import {BehaviorSubject, Observable, of, scan, startWith, Subject} from "rxjs";
 import {CameraEntity, CameraOptions, CcMapComponent} from '@cc-cesium';
-import {CcCameraComponent} from "../../../../../libs/cc-cesium/src/lib/components/cc-camera/cc-camera.component";
+import {CcCameraComponent} from "@cc-cesium";
 
 @Component({
   selector: 'nx-test-main-page',
@@ -22,6 +22,8 @@ export class MainPageComponent {
     }, [] as CameraOptions[])
   )
 
+  drawingMode: 'LineString' | 'Polygon' = 'Polygon'
+
   boxEntityOptions = {
     name: 'Warehouse',
     id: 1,
@@ -31,6 +33,8 @@ export class MainPageComponent {
     heightReference: HeightReference.CLAMP_TO_GROUND,
     outline: true
   }
+
+  drawMode$ = new BehaviorSubject<boolean>(false);
 
   viewerOptions = {
     requestRenderMode: true,
@@ -68,6 +72,16 @@ export class MainPageComponent {
     })
   )
 
+  droneAreas$ = of({
+    center: Cartesian3.fromDegrees(32.35300, 54.744846666667,),
+    radiuses: {
+      videoRadius: 5000,
+      remoteControlRadius: 15000,
+      effectiveRadius: 25000,
+      maxRadius: 52000
+    }
+  })
+
   onSelectEntity(entity: Entity) {
     console.log(entity)
   }
@@ -89,7 +103,17 @@ export class MainPageComponent {
   }
 
   test(map: CcMapComponent) {
-    console.log(map)
+    this.drawingMode = this.drawingMode === "LineString"
+      ? 'Polygon'
+      : 'LineString'
+  }
+
+  onPlanReady(geoJson: any) {
+    console.log(geoJson)
+  }
+
+  letsDraw() {
+    this.drawMode$.next(!this.drawMode$.value)
   }
 
 }

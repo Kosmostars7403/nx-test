@@ -36,7 +36,7 @@ export class GeoJsonPreparer {
 
     const coords = geoJson.coordinates[0]
 
-    for (let cartesian of cartesianCoords) {
+    for (const cartesian of cartesianCoords) {
       const cartographicPoint = Cartographic.fromCartesian(cartesian)
       coords.push([
         CesiumMath.toDegrees(cartographicPoint.longitude),
@@ -56,7 +56,7 @@ export class GeoJsonPreparer {
       coordinates: []
     }
 
-    for (let cartesian of cartesianCoords) {
+    for (const cartesian of cartesianCoords) {
       const cartographicPoint = Cartographic.fromCartesian(cartesian)
       geoJson.coordinates.push([
         CesiumMath.toDegrees(cartographicPoint.longitude),

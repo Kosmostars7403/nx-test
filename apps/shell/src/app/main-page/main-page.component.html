@@ -3,6 +3,13 @@
   (selectEntity)="onSelectEntity($event)"
   #map="map"
 >
+  <cc-flight-plan-draw
+    *ngIf="drawMode$ | async"
+    [drawingMode]="drawingMode"
+    [droneAvailableAreas$]="droneAreas$"
+    (planReady)="onPlanReady($event)"
+  ></cc-flight-plan-draw>
+
   <cc-box
     [entityOptions]="boxEntityOptions"
     #box="entity"
@@ -83,6 +90,7 @@
   <button (click)="showFPV(camera)" style="margin-top: 32px">FPV</button>
   <button (click)="resetFPV(camera)" style="margin-top: 32px">reset FPV</button>
   <button (click)="test(map)" style="margin-top: 32px">PEW</button>
+  <button (click)="letsDraw()" style="margin-top: 32px">LET'S DRAW!</button>
 </div>
 
 

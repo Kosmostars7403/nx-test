@@ -62,10 +62,6 @@ export class CcMapComponent implements OnInit {
         this.selectedEntityID = null
       }
     }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
-
-    this.viewer.entities.collectionChanged.addEventListener((collection, added, removed, changed) => {
-      console.log(collection, added, removed, changed)
-    });
   }
 
   private createContainer() {
