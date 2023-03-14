@@ -8,6 +8,7 @@ export interface CameraOptions extends SensorFieldOfView {
   matrixSize: string
   aspectRatio: "4/3" | "16/9"
   focalLength: number
+  videoUrl: string
 }
 
 export interface CameraEntity extends Cesium.Entity {
