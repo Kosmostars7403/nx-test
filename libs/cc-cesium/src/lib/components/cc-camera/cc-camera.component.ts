@@ -1,10 +1,10 @@
-import {Component, Input, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, ViewChild} from '@angular/core';
 import {CameraEntity, CameraOptions} from "../../interfaces/camera.interface";
 import * as Cesium from "cesium";
 import {MATRIX_LIST} from "./matrix-list";
 import {CcModelComponent} from "../cc-model/cc-model.component";
 import {FieldOfViewComponent} from "../field-of-view/field-of-view.component";
-import { CesiumService } from '../../services/cesium.service';
+import {CesiumService} from '../../services/cesium.service';
 import {CameraProjectionService} from "./camera-projection.service";
 
 const OFFSET_LON = 0.0009
@@ -19,7 +19,8 @@ const OFFSET_HEIGHT = 35
     ></cc-field-of-view>
   `,
   exportAs: 'entity',
-  providers: [CameraProjectionService]
+  providers: [CameraProjectionService],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CcCameraComponent extends CcModelComponent {
   @ViewChild(FieldOfViewComponent)

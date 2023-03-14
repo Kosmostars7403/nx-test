@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import * as Cesium from "cesium";
 import {CesiumService} from "../../services/cesium.service";
 import {RectangularPyramidSensorVolume, SensorFieldOfView} from "../../interfaces/sensor-volumes.interface";
@@ -6,7 +6,8 @@ import '../../decl.d'
 
 @Component({
   selector: 'cc-field-of-view',
-  template: ''
+  template: '',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FieldOfViewComponent implements OnInit {
   sensor: RectangularPyramidSensorVolume = new CesiumSensorVolumes.RectangularPyramidSensorVolume();
