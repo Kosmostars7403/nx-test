@@ -63,7 +63,7 @@ function getSubsystemPathResolver(path, ssName, forceUrl) {
 
 const remotes = {
   "calendarMf": getSubsystemPathResolver('mf/calendar', 'calendarMf'),
-  "orthomosaicMakerMf": getSubsystemPathResolver('mf/orthomaker', 'orthomosaicMakerMf'),
+  "orthomosaicMakerMf": getSubsystemPathResolver('mf/orthomosaic-maker', 'orthomosaicMakerMf'),
 };
 
 module.exports = {
