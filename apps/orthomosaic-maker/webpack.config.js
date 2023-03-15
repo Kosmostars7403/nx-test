@@ -1,21 +1,46 @@
-const {withModuleFederationPlugin, share} = require('@angular-architects/module-federation/webpack');
+const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
+const mf = require("@angular-architects/module-federation/webpack");
+const path = require("path");
+const sharedModuleMappings = require('./webpack.mf-shared-mappings');
+const sharedModuleExposes = require('./webpack.shared-exposes');
 
-module.exports = withModuleFederationPlugin({
+const sharedMappings = new mf.SharedMappings();
+sharedMappings.register(
+  path.join(__dirname, 'tsconfig.json'),
+  ['@nx-test/cc-cesium']);
 
-  name: 'orthomosaicMakerMf',
+const remotes = {};
+const mfName = 'orthomosaicMakerMf';
 
-  exposes: {
-    './routes': './apps/orthomosaic-maker/src/app/app.routes.ts',
+module.exports = {
+  output: {
+    uniqueName: mfName,
+    publicPath: "auto",
+    scriptType: 'text/javascript'
   },
+  optimization: {
+    runtimeChunk: false
+  },
+  resolve: {
+    alias: {
+      ...sharedMappings.getAliases(),
+    }
+  },
+  plugins: [
+    new ModuleFederationPlugin({
+      remotes,
 
-  shared: share({
-    '@angular/animations': {singleton: true, strictVersion: true, requiredVersion: '15.1.4', eager: false},
-    '@angular/common': {singleton: true, strictVersion: true, requiredVersion: '15.1.4', eager: false},
-    '@angular/compiler': {singleton: true, strictVersion: true, requiredVersion: '15.1.4', eager: false},
-    '@angular/core': {singleton: true, strictVersion: true, requiredVersion: '15.1.4', eager: false},
-    '@angular/forms': {singleton: true, strictVersion: true, requiredVersion: '15.1.4', eager: false},
-    '@angular/router': {singleton: true, strictVersion: true, requiredVersion: '15.1.4', eager: false},
-    '@ngxs/store': {singleton: true, strictVersion: true, requiredVersion: '^3.7.6', eager: false},
-  }),
+      name: mfName,
+      filename: `${mfName}.js`,
+      exposes: sharedModuleExposes,
 
-});
+      shared: mf.share({
+        ...sharedModuleMappings,
+        ...sharedMappings.getDescriptors()
+      })
+
+    }),
+    sharedMappings.getPlugin()
+  ],
+};
+
