@@ -69,7 +69,8 @@
           "browserTarget": "calendar:build:production"
         },
         "development": {
-          "browserTarget": "calendar:build:development"
+          "browserTarget": "calendar:build:development",
+          "proxyConfig": "proxy.conf.json"
         }
       },
       "defaultConfiguration": "development",

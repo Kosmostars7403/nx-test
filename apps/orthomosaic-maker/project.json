@@ -69,7 +69,8 @@
           "browserTarget": "orthomosaic-maker:build:production"
         },
         "development": {
-          "browserTarget": "orthomosaic-maker:build:development"
+          "browserTarget": "orthomosaic-maker:build:development",
+          "proxyConfig": "proxy.conf.json"
         }
       },
       "defaultConfiguration": "development",

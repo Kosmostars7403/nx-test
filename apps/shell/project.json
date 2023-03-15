@@ -78,7 +78,8 @@
           "browserTarget": "shell:build:production"
         },
         "development": {
-          "browserTarget": "shell:build:development"
+          "browserTarget": "shell:build:development",
+          "proxyConfig": "proxy.conf.json"
         }
       },
       "defaultConfiguration": "development",
