@@ -6,9 +6,10 @@ import { ViewerFactory } from './factories/viewer-factory.service';
 import { CcModelComponent } from './components/cc-model/cc-model.component';
 import { FieldOfViewComponent } from './components/field-of-view/field-of-view.component';
 import { CcCameraComponent } from './components/cc-camera/cc-camera.component';
-import {CameraEntity, CameraOptions } from './interfaces/camera.interface';
+import { CameraEntity, CameraOptions } from './interfaces/camera.interface';
 import { CesiumService } from './services/cesium.service';
-import {CCDrawComponent} from "./components/draw-flight-plan.component";
+import { CCDrawComponent } from './components/draw-flight-plan.component';
+import { CcLayerComponent } from './components/cc-layer/cc-layer.component';
 
 @NgModule({
   imports: [CommonModule],
@@ -18,7 +19,8 @@ import {CCDrawComponent} from "./components/draw-flight-plan.component";
     CcModelComponent,
     FieldOfViewComponent,
     CcCameraComponent,
-    CCDrawComponent
+    CCDrawComponent,
+    CcLayerComponent,
   ],
   exports: [
     CcMapComponent,
@@ -26,7 +28,8 @@ import {CCDrawComponent} from "./components/draw-flight-plan.component";
     CcModelComponent,
     FieldOfViewComponent,
     CcCameraComponent,
-    CCDrawComponent
+    CCDrawComponent,
+    CcLayerComponent,
   ],
   providers: [ViewerFactory],
 })
@@ -37,5 +40,5 @@ export {
   CcMapComponent,
   CesiumService,
   CameraEntity,
-  CcCameraComponent
-}
+  CcCameraComponent,
+};

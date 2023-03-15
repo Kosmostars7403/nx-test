@@ -21,7 +21,7 @@ module.exports = {
       '@ngxs/store': {singleton: true, strictVersion: true, requiredVersion: '^3.7.6', eager: false},
 
     }),
-    sharedMappings: ['@nx-test/orwell-cesium']
+    sharedMappings: ['@nx-test/cc-cesium']
   }),
   // resolve: {
   //   fallback: {

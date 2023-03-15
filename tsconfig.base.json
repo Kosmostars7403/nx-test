@@ -17,7 +17,6 @@
     "paths": {
       "@cc-cesium": ["libs/cc-cesium/src/index.ts"],
       "@nx-test/common-ui/sidebar": ["libs/common-ui/sidebar/src/index.ts"],
-      "@nx-test/orwell-cesium": ["libs/orwell-cesium/src/index.ts"],
       "@shared": ["libs/shared/src/index.ts"],
       "Buffer": ["./fallback.ts"],
       "fs": ["./fallback.ts"],

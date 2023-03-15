@@ -3,9 +3,8 @@ import { CommonModule } from '@angular/common';
 import {RouterModule} from '@angular/router';
 import {Select, Store} from '@ngxs/store';
 import {CommonUiSidebarComponent} from '@nx-test/common-ui/sidebar';
-import {CesiumDirective, FlightPlanDirective} from '@nx-test/orwell-cesium';
 import { DateTime } from "luxon";
-import {BehaviorSubject, Observable, Subject} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {FlightReport} from '../../data-access/interfaces/flight.model';
 import {GetFlightReports} from '../../data-access/stores/calendar-store/calendar.actions';
 import {CalendarState} from '../../data-access/stores/calendar-store/calendar.state';
@@ -24,8 +23,6 @@ const MONTHS_IN_YEAR = 12
     CommonUiSidebarComponent,
     RouterModule,
     CalendarFlightsComponent,
-    CesiumDirective,
-    FlightPlanDirective,
   ],
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.scss'],

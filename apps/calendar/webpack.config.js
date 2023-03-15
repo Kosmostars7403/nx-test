@@ -24,6 +24,6 @@ module.exports = {
       '@angular/router': {singleton: true, strictVersion: true, requiredVersion: '15.1.4', eager: false},
       '@ngxs/store': {singleton: true, strictVersion: true, requiredVersion: '^3.7.6', eager: false},
     }),
-    sharedMappings: ['@nx-test/orwell-cesium']
+    sharedMappings: ['@nx-test/cc-cesium']
   })
 }

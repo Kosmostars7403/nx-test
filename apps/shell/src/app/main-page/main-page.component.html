@@ -10,11 +10,16 @@
     (planReady)="onPlanReady($event)"
   ></cc-flight-plan-draw>
 
-  <cc-box
-    [entityOptions]="boxEntityOptions"
-    #box="entity"
-    (added)="box.zoomTo()"
-  ></cc-box>
+  <cc-layer
+    name="box"
+    [show]="true"
+  >
+    <cc-box
+      [entityOptions]="boxEntityOptions"
+      #box="entity"
+      (added)="box.zoomTo()"
+    ></cc-box>
+  </cc-layer>
 
   <cc-camera
     [options]="cameraOptions$ | async"
@@ -92,8 +97,3 @@
   <button (click)="test(map)" style="margin-top: 32px">PEW</button>
   <button (click)="letsDraw()" style="margin-top: 32px">LET'S DRAW!</button>
 </div>
-
-
-<!--<video id="myVideo" [muted]="true" autoplay="" loop="" crossorigin="" controls="" style="display: none">-->
-<!--  <source src="/assets/234.mov">-->
-<!--</video>-->

@@ -1,11 +1,16 @@
-<div
-  class="map-container"
-  *ngIf="createFlight"
-  nxTestCesium
-  nxTestFlightPlan
->
+<div class="map">
+  <cc-map
+    [viewerOptions]="viewerOptions"
+    #map="map"
+  >
+    <cc-flight-plan-draw
+      *ngIf="drawMode$ | async"
+      [drawingMode]="drawingMode"
+      [droneAvailableAreas$]="droneAreas$"
+      (planReady)="onPlanReady($event)"
+    ></cc-flight-plan-draw>
+  </cc-map>
 </div>
-
 
 <ul *ngFor="let report of flightReports" class="flight">
   <li>День недели:{{ report.date | date: 'dd.MM.YYYY'}}</li>
@@ -14,4 +19,4 @@
   <button (click)="showFlight=true">Показать трек полета</button>
 </ul>
 
-<button (click)="createFlight=true">Создать полет</button>
+<button (click)="drawMode$.next(true)">Создать полет</button>

@@ -4,9 +4,7 @@ import * as Cesium from "cesium";
 import {CESIUM_API_KEY} from "@shared";
 import {ViewerFactory} from "../factories/viewer-factory.service";
 
-/**
- *  Service that initialize cesium viewer and expose cesium viewer and scene.
- */
+
 @Injectable()
 export class CesiumService {
   private viewer!: Cesium.Viewer;

@@ -1,14 +1,18 @@
 import * as Cesium from "cesium";
-import {Directive, EventEmitter, Input, OnDestroy, Output} from "@angular/core";
+import {Directive, EventEmitter, inject, Input, OnDestroy, Output} from "@angular/core";
 import {CesiumService} from "../services/cesium.service";
 import {GraphicsTypes} from "../interfaces/graphics-types";
 import {ICesiumEntity} from "../interfaces/cesium-entity.interface";
+import {LayerService} from "../services/layer.service";
+
 
 @Directive()
 export class CesiumEntity implements ICesiumEntity, OnDestroy {
   private _options!: any
 
   entity!: Cesium.Entity
+
+  layerService: LayerService | null
 
   @Input()
   set entityOptions(opts: any) {
@@ -21,14 +25,19 @@ export class CesiumEntity implements ICesiumEntity, OnDestroy {
 
   constructor(
     protected cesiumService: CesiumService,
-    private graphicsTypeName: GraphicsTypes
+    private graphicsTypeName: GraphicsTypes,
   ) {
+    this.layerService = inject(LayerService, {
+      optional: true
+    })
   }
 
   addOnMap() {
-    const viewer = this.cesiumService.getViewer()
+    const entityCollection: Cesium.EntityCollection = this.layerService?.getEntityCollection()
+      ? (this.layerService.getEntityCollection() as Cesium.EntityCollection)
+      : this.cesiumService.getViewer().entities
 
-    this.entity = viewer.entities.add({
+    this.entity = entityCollection.add({
       id: this._options.id ?? Math.random(),
       name: this._options.name ?? undefined,
       position: this._options.position ?? undefined,
